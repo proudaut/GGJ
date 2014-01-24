@@ -24,7 +24,7 @@ public class RoomManager : MonoBehaviour
 		
 
 
-		if(SocketServer.instance.mListClient.Count>0)
+		if(SocketServer.instance.mListClient.Count>0  || mListPlayer.Count >0)
 		{
 			if (GUI.Button(new Rect(10, 400, 100, 100), "Start"))
 			{
@@ -55,7 +55,6 @@ public class RoomManager : MonoBehaviour
 
 	void StartGame()
 	{
-		SocketServer.instance.SendToAllClient("Start");
 		foreach(TcpPlayer ltcpPlayer in SocketServer.instance.mListClient)
 		{
 			mListPlayer.Add(ltcpPlayer);
