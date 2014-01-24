@@ -27,7 +27,7 @@ public class RoomManager : MonoBehaviour
 				StartGame();
 			}
 
-			foreach(SocketPlayer lPoint in SocketServer.instance.mListClient)
+			foreach(ServerPlayer lPoint in SocketServer.instance.mListClient)
 			{
 				string clientname = "Client : " + lPoint.mIndex;
 				GUI.Label(new Rect(10 + (100* lPoint.mIndex), 250, 100, 100), clientname);

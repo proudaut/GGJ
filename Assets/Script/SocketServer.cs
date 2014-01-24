@@ -14,7 +14,7 @@ using System.Text;
 public class SocketServer : MonoBehaviour	
 {	
 	public Thread mThreadSync;	
-	public List<SocketPlayer> mListClient = new List<SocketPlayer>();		
+	public List<ServerPlayer> mListClient = new List<ServerPlayer>();		
 	public bool mSynchronizing = false;
 	public static SocketServer instance;
 
@@ -52,7 +52,7 @@ public class SocketServer : MonoBehaviour
 			Socket s=myList.AcceptSocket();
 
 			Debug.Log("Find Client");
-			mListClient.Add(new SocketPlayer(s , mListClient.Count));
+			mListClient.Add(new ServerPlayer(s , mListClient.Count));
 			mSynchronizing = false;
 			myList.Stop();
 		}
@@ -65,7 +65,7 @@ public class SocketServer : MonoBehaviour
 
 	void OnDisable()
 	{
-		foreach(SocketPlayer lPoint in mListClient)
+		foreach(ServerPlayer lPoint in mListClient)
 		{
 			lPoint.Close();
 		}
@@ -73,7 +73,7 @@ public class SocketServer : MonoBehaviour
 
 	public void SendToAllClient(string message)
 	{
-		foreach(SocketPlayer lPoint in mListClient)
+		foreach(ServerPlayer lPoint in mListClient)
 		{
 			lPoint.Send(message);
 		}

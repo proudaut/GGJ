@@ -9,13 +9,13 @@ using System;
 using System.Text;
 
 
-public class SocketPlayer	
+public class ServerPlayer	
 {	
 	private Thread tread;	
 	private Socket socket;
 	private bool running = true;	
 	public int mIndex = 0;
-	public SocketPlayer (Socket s , int index)		
+	public ServerPlayer (Socket s , int index)		
 	{			
 		mIndex = index;
 		socket = s;
