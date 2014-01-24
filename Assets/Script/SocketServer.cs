@@ -13,41 +13,37 @@ using System.Text;
 
 public class SocketServer : MonoBehaviour	
 {	
-	private Thread mThread;	
-	private List<Client> arrReader = new List<Client>();		
-	private bool synchronizing = false;
-	
-	void Start()		
-	{			
+	public Thread mThreadSync;	
+	public List<TcpPlayer> mListClient = new List<TcpPlayer>();		
+	public bool mSynchronizing = false;
+	public static SocketServer instance;
+	private int mId = 0;
+
+	public int getId()
+	{
+		mId++;
+		return mId;
 	}
 
-
-	void OnGUI() 
+	void Awake()
 	{
-		if(synchronizing == true)
-		{
-			GUI.Label(new Rect(10, 10, 150, 100), "Synchronising....");
-		}
-		else
-		{
-			if (GUI.Button(new Rect(10, 10, 150, 100), "Synchronisation"))
-			{
-				synchronizing = true;
-				ThreadStart ts = new ThreadStart(SyncSearch );		
-				mThread = new Thread(ts);		
-				mThread.Start();
-			}
-		}
-
-		
-		
-		foreach(Client lPoint in arrReader)
-		{
-			int id = arrReader.IndexOf(lPoint);
-			string clientname = "Client : " + id;
-			if (GUI.Button(new Rect(10 + (100* id), 150, 100, 100), clientname))
-				lPoint.Send("Server Say Hello");
-		}
+		instance = this;
+		DontDestroyOnLoad(this);
+	}
+	IEnumerator StopSync()
+	{
+		yield return new WaitForSeconds(5f);
+		mThreadSync.Abort();
+		mThreadSync = null;
+		mSynchronizing = false;
+	}
+	public void StartSync()
+	{
+		StartCoroutine(StopSync());
+		mSynchronizing = true;
+		ThreadStart ts = new ThreadStart(SyncSearch );		
+		mThreadSync = new Thread(ts);		
+		mThreadSync.Start();
 	}
 
 	
@@ -63,15 +59,31 @@ public class SocketServer : MonoBehaviour
 			Socket s=myList.AcceptSocket();
 
 			Debug.Log("Find Client");
-			arrReader.Add(new Client(s , arrReader.Count));
-			synchronizing = false;
+			mListClient.Add(new TcpPlayer(s , getId() ,  0));
+			mSynchronizing = false;
 			myList.Stop();
 		}
 		catch (Exception e) {
-			synchronizing = false;
+			mSynchronizing = false;
 			Debug.Log("Error..... " + e.StackTrace);
 		}  
 
+	}
+
+	void OnDisable()
+	{
+		foreach(TcpPlayer lPoint in mListClient)
+		{
+			lPoint.Close();
+		}
+	}
+
+	public void SendToAllClient(string message)
+	{
+		foreach(TcpPlayer lPoint in mListClient)
+		{
+			lPoint.Send(message);
+		}
 	}
 
 	public string LocalIP()
@@ -91,45 +103,4 @@ public class SocketServer : MonoBehaviour
 }
 
 
-public class Client	
-{	
-	private Thread tread;	
-	private Socket socket;
-	private bool running = true;	
-	private int mIndex = 0;
-	public Client (Socket s , int index)		
-	{			
-		mIndex = index;
-		socket = s;
-		ThreadStart ts = new ThreadStart(StartTread);
-		tread = new Thread(ts);		
-		tread.Start();
-
-		Send("Welcome Pipo");
-	}	
-	public void Destroy ()
-	{
-		running = false;
-		socket.Close();
-	}
-	
-	private void StartTread()		
-	{		
-		while(running)			
-		{			
-			byte[] b=new byte[100];
-			socket.Receive(b);
-			Debug.Log("Recieved...");
-			string text = Encoding.UTF8.GetString(b);
-			Debug.Log("Recieved from " + mIndex + ":" + text);
-		}		
-	}
-
-	public void Send(String message)
-	{
-		byte[] ba= Encoding.UTF8.GetBytes(message);
-		socket.Send(ba);
-		Debug.Log("\nSent :" + message);
-	}
-}
 

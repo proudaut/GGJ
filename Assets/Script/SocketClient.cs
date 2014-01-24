@@ -13,37 +13,29 @@ public class SocketClient : MonoBehaviour {
 
 	private Thread mThreadSync;	
 	private Thread mThreadListen;	
-	Stream mServerStream = null;
-	bool running = false;
-	bool mIsSynchronazing = false;
+	public Stream mServerStream = null;
+	public bool mConnected = false;
+	public bool mSynchronizing = false;
 	// Use this for initialization
-
-
+	public static SocketClient instance;
+	void Awake()
+	{
+		instance = this;
+		DontDestroyOnLoad(this);
+	}
 	void OnDisable()
 	{
 		DisconnectToServer();
 	}
 
-	void OnGUI() 
+
+	public void StartSync()
 	{
-		if(mServerStream != null)
-		{
-			if (GUI.Button(new Rect(10, 10, 150, 100), "Connected"))
-			{
-				SendToServer("Plop Server");
-			}
-		}
-		else if (mIsSynchronazing == false)
-		{
-			if (GUI.Button(new Rect(10, 10, 150, 100), "Synchronisation"))
-			{
-				mIsSynchronazing = true;
-				ThreadStart ts = new ThreadStart(LookingForServer );		
-				mThreadSync = new Thread(ts);		
-				mThreadSync.Start();
-				StartCoroutine("StopSync");
-			}
-		}
+		mSynchronizing = true;
+		ThreadStart ts = new ThreadStart(LookingForServer );		
+		mThreadSync = new Thread(ts);		
+		mThreadSync.Start();
+		StartCoroutine("StopSync");
 	}
 
 	IEnumerator StopSync()
@@ -51,14 +43,14 @@ public class SocketClient : MonoBehaviour {
 		yield return new WaitForSeconds(5f);
 		mThreadSync.Abort();
 		mThreadSync = null;
-		mIsSynchronazing = false;
+		mSynchronizing = false;
 	}
 
 
 
 	void LookingForServer()		
 	{
-		while(running == false)
+		while(mConnected == false)
 		{
 			Thread.Sleep(500);
 			try {
@@ -67,33 +59,36 @@ public class SocketClient : MonoBehaviour {
 				
 				tcpclnt.Connect("192.168.13.155",8001);
 				// use the ipaddress as in the server program
-				running =true;
+				mConnected =true;
 				
 				mServerStream = tcpclnt.GetStream();
 				
 				ThreadStart ts = new ThreadStart(ListenServer);		
 				mThreadListen = new Thread(ts);		
 				mThreadListen.Start();
-				
-				SendToServer("Coucou je suis le client");
 			}
 			
 			catch (Exception e) {
 				Debug.Log("Error..... " + e.StackTrace);
 			}
 		}
-		mIsSynchronazing = false;
+		mSynchronizing = false;
 	}
 
 
 	void ListenServer()		
 	{
-		while(running)			
+		while(mConnected)			
 		{			
 			byte[] b=new byte[100];
 			mServerStream.Read(b,0,100);
 			string text = Encoding.UTF8.GetString(b);
-			Debug.Log("receive " + text);
+			Debug.Log ("Receive " + text);
+
+			if(text.IndexOf("Start")>=0)
+			{
+				Application.LoadLevel("Game");
+			}
 		}	
 	}
 

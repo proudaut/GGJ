@@ -1,8 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Controls/Moveable.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/GameContext.cs">
     <Files>
-      <File FileName="Assets/Controls/Moveable.cs" Line="13" Column="32" />
+      <File FileName="Assets/Script/RoomManager.cs" Line="7" Column="33" />
+      <File FileName="Assets/Script/WaitingRoomManager.cs" Line="31" Column="3" />
+      <File FileName="Assets/Script/TcpPlayer.cs" Line="14" Column="24" />
+      <File FileName="Assets/Script/SocketServer.cs" Line="17" Column="1" />
+      <File FileName="Assets/Script/Player.cs" Line="4" Column="1" />
+      <File FileName="Assets/Script/GameContext.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
