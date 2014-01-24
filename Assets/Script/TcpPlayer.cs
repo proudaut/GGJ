@@ -9,15 +9,13 @@ using System;
 using System.Text;
 
 
-public class ServerPlayer	
+public class TcpPlayer : Player	
 {	
 	private Thread tread;	
 	private Socket socket;
 	private bool running = true;	
-	public int mIndex = 0;
-	public ServerPlayer (Socket s , int index)		
+	public TcpPlayer (Socket s , int _id , int _type)	 : base(_id, _type)	
 	{			
-		mIndex = index;
 		socket = s;
 		ThreadStart ts = new ThreadStart(StartTread);
 		tread = new Thread(ts);		
@@ -37,7 +35,7 @@ public class ServerPlayer
 			socket.Receive(b);
 			Debug.Log("Recieved...");
 			string text = Encoding.UTF8.GetString(b);
-			Debug.Log("Recieved from " + mIndex + ":" + text);
+			Debug.Log("Recieved from " + mId + ":" + text);
 		}		
 	}
 	

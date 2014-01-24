@@ -14,9 +14,16 @@ using System.Text;
 public class SocketServer : MonoBehaviour	
 {	
 	public Thread mThreadSync;	
-	public List<ServerPlayer> mListClient = new List<ServerPlayer>();		
+	public List<TcpPlayer> mListClient = new List<TcpPlayer>();		
 	public bool mSynchronizing = false;
 	public static SocketServer instance;
+	private int mId = 0;
+
+	public int getId()
+	{
+		mId++;
+		return mId;
+	}
 
 	void Awake()
 	{
@@ -52,7 +59,7 @@ public class SocketServer : MonoBehaviour
 			Socket s=myList.AcceptSocket();
 
 			Debug.Log("Find Client");
-			mListClient.Add(new ServerPlayer(s , mListClient.Count));
+			mListClient.Add(new TcpPlayer(s , getId() ,  0));
 			mSynchronizing = false;
 			myList.Stop();
 		}
@@ -65,7 +72,7 @@ public class SocketServer : MonoBehaviour
 
 	void OnDisable()
 	{
-		foreach(ServerPlayer lPoint in mListClient)
+		foreach(TcpPlayer lPoint in mListClient)
 		{
 			lPoint.Close();
 		}
@@ -73,7 +80,7 @@ public class SocketServer : MonoBehaviour
 
 	public void SendToAllClient(string message)
 	{
-		foreach(ServerPlayer lPoint in mListClient)
+		foreach(TcpPlayer lPoint in mListClient)
 		{
 			lPoint.Send(message);
 		}
