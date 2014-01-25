@@ -13,7 +13,7 @@ public class CollisionDetector : MonoBehaviour
 
 	void OnCollisionEnter(Collision coll)
 	{
-		GetComponent<DirectionMove>().velocity = Vector3.zero;
+		this.gameObject.SendMessage("Collide", coll, SendMessageOptions.DontRequireReceiver);
 	}
 }
 
