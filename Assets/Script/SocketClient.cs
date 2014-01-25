@@ -104,9 +104,9 @@ public class SocketClient : MonoBehaviour {
 					mId = mReceivedData[1];
 					break;
 				case GameMessageType.GameStart:
-				this.gameObject.GetComponent<GameContext>().mGameController.PlayStartGameAnimation();
-				break;
-			case GameMessageType.ServerSync :
+					this.gameObject.GetComponent<GameContext>().mGameController.PlayStartGameAnimation();
+					break;
+				case GameMessageType.ServerSync :
 					if(this.gameObject.GetComponent<GameContext>() == null)
 					{
 						GameContext lGameContext = this.gameObject.AddComponent<GameContext>();
@@ -126,8 +126,8 @@ public class SocketClient : MonoBehaviour {
 				                                                         
 					break;
 				case GameMessageType.End :
-				GameStatus lGameStatus = (GameStatus)mReceivedData[1];	
-				this.gameObject.GetComponent<GameContext>().mGameController.PlayEndGameAnimation(lGameStatus);
+					GameStatus lGameStatus = (GameStatus)mReceivedData[1];	
+					this.gameObject.GetComponent<GameContext>().mGameController.PlayEndGameAnimation(lGameStatus);
 					break;
 			}
 		}
