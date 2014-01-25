@@ -5,11 +5,14 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
-		foreach(Player lPlayer in GameContext.instance.mListPlayer)
+		if(GameContext.instance!=null)
 		{
-			lPlayer.StartGame();
+			foreach(Player lPlayer in GameContext.instance.mListPlayer)
+			{
+				lPlayer.StartGame();
+			}
 		}
+
 	}
 
 	

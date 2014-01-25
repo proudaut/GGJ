@@ -10,6 +10,11 @@ public class Player
 	public int mType;
 	public float mSpeed;
 
+	public float mx;
+	public float my;
+	public float mz;
+
+	
 	public GameObject mGamePlayer;
 
 	public Player (int _id, int _type)		
@@ -27,7 +32,15 @@ public class Player
 	{
 		Debug.Log ("create player object");
 		//TO DO CREATE MONOBEAVIOR
-		mGamePlayer = GameObject.Instantiate (Resources.Load ("PlayerNoControle")) as GameObject;
+		if(SocketClient.instance != null && mId == SocketClient.instance.mId)
+		{
+			mGamePlayer = GameObject.Instantiate (Resources.Load ("Goblin")) as GameObject; 
+		}
+		else
+		{
+			mGamePlayer = GameObject.Instantiate (Resources.Load ("PlayerNoControle")) as GameObject;
+			mGamePlayer.GetComponent<UpdateNoControle>().mPlayer = this;
+		}
 	}
 
 
@@ -49,13 +62,45 @@ public class Player
 
 	public void Update(Dictionary<string, object> _Dic)
 	{
-		int lId = int.Parse(_Dic["Id"].ToString());
-		if(lId == mId)
-		{
-			SetPlayerDictionary(_Dic);
+		if((SocketClient.instance!= null && SocketClient.instance.mId !=  mId) || SocketServer.instance != null)
+		{	
+			int lId = int.Parse(_Dic["Id"].ToString());
+			if(lId == mId)
+			{
+				SetPlayerDictionary(_Dic);
+			}
 		}
 	}
 
+	public void UpdateInThread(Dictionary<string, object> _Dic)
+	{
+		//if((SocketClient.instance!= null && SocketClient.instance.mId !=  mId) || SocketServer.instance != null)
+		{	
+			int lId = int.Parse(_Dic["Id"].ToString());
+			if(lId == mId)
+			{
+				SetPlayerDictionaryInThread(_Dic);
+			}
+		}
+	}
+
+	public void SetPlayerDictionaryInThread(Dictionary<string, object> _Dic)
+	{
+		mId = int.Parse(_Dic["Id"].ToString());
+		mType = int.Parse(_Dic["Type"].ToString());
+		
+		if(_Dic.ContainsKey("x"))
+		{
+			//if(mGamePlayer!=null)
+			{
+				mx = float.Parse(_Dic["x"].ToString());
+				my = float.Parse(_Dic["y"].ToString());
+				mz = float.Parse(_Dic["z"].ToString());
+			}
+		} 
+	}
+
+	
 	public void SetPlayerDictionary(Dictionary<string, object> _Dic)
     {
 		mId = int.Parse(_Dic["Id"].ToString());
@@ -65,10 +110,10 @@ public class Player
 		{
 			if(mGamePlayer!=null)
 			{
-				float x = float.Parse(_Dic["x"].ToString());
-				float y = float.Parse(_Dic["y"].ToString());
-				float z = float.Parse(_Dic["z"].ToString());
-				mGamePlayer.transform.position = new Vector3(x,y,z);
+				mx = float.Parse(_Dic["x"].ToString());
+				my = float.Parse(_Dic["y"].ToString());
+				mz = float.Parse(_Dic["z"].ToString());
+				mGamePlayer.transform.position = new Vector3(mx,my,mz);
 			}
 		} 
 	}

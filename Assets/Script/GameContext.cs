@@ -30,6 +30,7 @@ public class GameContext : MonoBehaviour
 			Player lPlayer =  new Player(lDicPlayer);
 			mListPlayer.Add(lPlayer);
 		}
+		StartCoroutine(SynchClient());
 	}
 
 	public void UpdateGame(List<System.Object> lArray)
@@ -55,6 +56,24 @@ public class GameContext : MonoBehaviour
 			}
 		
 			SocketServer.instance.SendToAllClient(Prime31.Json.jsonEncode(lArray));
+			yield return new WaitForSeconds(0.1f);
+		}
+	}
+
+
+	public IEnumerator SynchClient()
+	{
+		while(true)
+		{
+			foreach(Player lPlayer in mListPlayer)
+			{
+				if(lPlayer.mId == SocketClient.instance.mId)
+				{
+					Debug.Log("SynchClient");
+					SocketClient.instance.SendToServer(Prime31.Json.jsonEncode(lPlayer.GetPlayerDictionary()));
+					break;
+				}
+			}
 			yield return new WaitForSeconds(0.1f);
 		}
 	}

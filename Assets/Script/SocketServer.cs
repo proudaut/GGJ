@@ -86,6 +86,7 @@ public class SocketServer : MonoBehaviour
 		}
 	}
 
+
 	public string LocalIP()
 	{
 		IPHostEntry host;

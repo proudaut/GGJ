@@ -13,13 +13,15 @@ public class TcpPlayer : Player
 {	
 	private Thread tread;	
 	private Socket socket;
-	private bool running = true;	
+	private bool running = true;
 	public TcpPlayer (Socket s , int _id , int _type)	 : base(_id, _type)	
 	{			
 		socket = s;
-		ThreadStart ts = new ThreadStart(StartTread);
+		ThreadStart ts = new ThreadStart(ListenPlayer);
 		tread = new Thread(ts);		
 		tread.Start();
+
+		SendWelcome();
 	}	
 	public void Destroy ()
 	{
@@ -27,14 +29,28 @@ public class TcpPlayer : Player
 		socket.Close();
 	}
 	
-	private void StartTread()		
+	private void ListenPlayer()		
 	{		
 		while(running)			
 		{			
-			byte[] b=new byte[100];
+			Debug.Log("Start ListenPlayer");
+
+			byte[] b=new byte[256];
 			socket.Receive(b);
 			string text = Encoding.UTF8.GetString(b);
-		}		
+
+			Debug.Log("StartTread : " + text);
+
+			object jsonvalue = Prime31.Json.jsonDecode(text);
+			if(jsonvalue is Dictionary<string, object>)
+			{
+				Dictionary<string, object> JsonObject = (Dictionary<string, object>)jsonvalue;
+				base.UpdateInThread(JsonObject);
+			}
+
+		}	
+
+		Debug.Log("STOP ListenPlayer");
 	}
 	
 	public void Send(String message)
@@ -42,7 +58,15 @@ public class TcpPlayer : Player
 		byte[] ba= Encoding.UTF8.GetBytes(message);
 		socket.Send(ba);
 	}
+
 	
+	public void SendWelcome()
+	{
+		Dictionary<string, object> lDic = new Dictionary<string, object>();
+		lDic.Add("Id", mId.ToString());
+		Send(Prime31.Json.jsonEncode(lDic));
+	}
+
 	public void Close()
 	{
 		socket.Close();

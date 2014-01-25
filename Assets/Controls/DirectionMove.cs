@@ -24,6 +24,12 @@ public class DirectionMove : MonoBehaviour
 			destination = new Vector3(pushedPosition.x, pushedPosition.y, transform.position.z);
 			velocity = (-(transform.position - destination)).normalized * speed;
 		}
+		if(Input.GetMouseButtonUp(0))
+		{
+			Vector3 pushedPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			destination = new Vector3(pushedPosition.x, pushedPosition.y, transform.position.z);
+			velocity = (-(transform.position - destination)).normalized * speed;
+		}
 
 		if(transform.position == destination)
 			// TODO : approximate destination
@@ -31,4 +37,6 @@ public class DirectionMove : MonoBehaviour
 
 		rigidbody.velocity = velocity;
 	}
+
+	
 }

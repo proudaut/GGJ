@@ -16,6 +16,7 @@ public class SocketClient : MonoBehaviour {
 	public Stream mServerStream = null;
 	public bool mConnected = false;
 	public bool mSynchronizing = false;
+	public int mId = -1;
 	// Use this for initialization
 	public static SocketClient instance;
 	void Awake()
@@ -82,24 +83,35 @@ public class SocketClient : MonoBehaviour {
 		{			
 			byte[] b=new byte[1024];
 			mServerStream.Read(b,0,1024);
+		
 			string text = Encoding.UTF8.GetString(b);
-
-			List<System.Object> JsonObject = (List<System.Object>)Prime31.Json.jsonDecode(text);
-
-			if(this.gameObject.GetComponent<GameContext>() == null)
+			if(string.IsNullOrEmpty(text) == false)
 			{
-				GameContext lGameContext = this.gameObject.AddComponent<GameContext>();
-				lGameContext.InitGame(JsonObject);
-				Application.LoadLevel("Game");
-			}
-			else
-			{
-				this.gameObject.GetComponent<GameContext>().UpdateGame(JsonObject);
+				object jsonvalue = Prime31.Json.jsonDecode(text);
+				if(jsonvalue is List<System.Object>)
+				{
+					List<System.Object> JsonObject = (List<System.Object>)jsonvalue;
+					if(this.gameObject.GetComponent<GameContext>() == null)
+					{
+						GameContext lGameContext = this.gameObject.AddComponent<GameContext>();
+						lGameContext.InitGame(JsonObject);
+						Application.LoadLevel("Game");
+					}
+					else
+					{
+						this.gameObject.GetComponent<GameContext>().UpdateGame(JsonObject);
+					}
+				}
+				else if(jsonvalue is Dictionary<string, object>)
+				{
+					Dictionary<string, object> JsonObject = (Dictionary<string, object>)jsonvalue;
+					mId = int.Parse(JsonObject["Id"].ToString());
+				}
 			}
 		}	
 	}
 
-	void SendToServer(String message)		
+	public void SendToServer(String message)		
 	{
 		Debug.Log("Transmitting.....");
 		byte[] ba= Encoding.UTF8.GetBytes(message);
