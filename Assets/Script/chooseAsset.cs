@@ -12,8 +12,12 @@ public class chooseAsset : MonoBehaviour {
 		//i am server 
 		if (SocketServer.instance != null) 
 		{
+			badge_big.SetActive(true);
 			badge.SetActive(false);
-		} else {
+		}
+		else
+		{
+			badge.SetActive(true);
 			badge_big.SetActive(false);
 		}
 	}
