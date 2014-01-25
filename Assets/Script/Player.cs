@@ -43,8 +43,6 @@ public class Player
 		}
 	}
 
-
-
 	public Dictionary<string, object> GetPlayerDictionary()
 	{
 		Dictionary<string, object> lDic = new Dictionary<string, object>();
