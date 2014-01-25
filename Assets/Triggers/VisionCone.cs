@@ -11,6 +11,8 @@ public class VisionCone : MonoBehaviour
 	public Transform Origin;
 	public LayerMask DetectedLayers;
 
+	private GameObject Target;
+
 	//working vars
 	private Vector3 targetDir;
 	private Vector3 forward;
@@ -25,6 +27,7 @@ public class VisionCone : MonoBehaviour
 	void Awake()
 	{
 		ray = new Ray();
+		Target = GameObject.Find("GameManager");
 	}
 
 	void Update () 
@@ -47,8 +50,7 @@ public class VisionCone : MonoBehaviour
 
 			if (Physics.Raycast(ray, out hitInfo, Distance, DetectedLayers))
 			{
-				Debug.Log("Vision hit goblin");
-				SendMessage("VisionHit", hitInfo, SendMessageOptions.DontRequireReceiver);
+				Target.SendMessage("VisionHit", hitInfo, SendMessageOptions.DontRequireReceiver);
 			}
 			currentAngle -= subAngle;
 		}
