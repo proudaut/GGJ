@@ -48,8 +48,8 @@ public class Player
 	public Dictionary<string, object> GetPlayerDictionary()
 	{
 		Dictionary<string, object> lDic = new Dictionary<string, object>();
-		lDic.Add("Id", mId.ToString());
-		lDic.Add("Type", mType.ToString());
+		lDic.Add("i", mId.ToString());
+		lDic.Add("t", mType.ToString());
 
 		if(mGamePlayer != null)
 		{
@@ -64,7 +64,7 @@ public class Player
 	{
 		if((SocketClient.instance!= null && SocketClient.instance.mId !=  mId) || SocketServer.instance != null)
 		{	
-			int lId = int.Parse(_Dic["Id"].ToString());
+			int lId = int.Parse(_Dic["i"].ToString());
 			if(lId == mId)
 			{
 				SetPlayerDictionary(_Dic);
@@ -76,7 +76,7 @@ public class Player
 	{
 		//if((SocketClient.instance!= null && SocketClient.instance.mId !=  mId) || SocketServer.instance != null)
 		{	
-			int lId = int.Parse(_Dic["Id"].ToString());
+			int lId = int.Parse(_Dic["i"].ToString());
 			if(lId == mId)
 			{
 				SetPlayerDictionaryInThread(_Dic);
@@ -86,8 +86,8 @@ public class Player
 
 	public void SetPlayerDictionaryInThread(Dictionary<string, object> _Dic)
 	{
-		mId = int.Parse(_Dic["Id"].ToString());
-		mType = int.Parse(_Dic["Type"].ToString());
+		mId = int.Parse(_Dic["i"].ToString());
+		mType = int.Parse(_Dic["t"].ToString());
 		
 		if(_Dic.ContainsKey("x"))
 		{
@@ -103,8 +103,8 @@ public class Player
 	
 	public void SetPlayerDictionary(Dictionary<string, object> _Dic)
     {
-		mId = int.Parse(_Dic["Id"].ToString());
-		mType = int.Parse(_Dic["Type"].ToString());
+		mId = int.Parse(_Dic["i"].ToString());
+		mType = int.Parse(_Dic["t"].ToString());
 
 		if(_Dic.ContainsKey("x"))
 		{

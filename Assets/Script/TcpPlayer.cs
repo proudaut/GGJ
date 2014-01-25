@@ -33,13 +33,10 @@ public class TcpPlayer : Player
 	{		
 		while(running)			
 		{			
-			Debug.Log("Start ListenPlayer");
-
 			byte[] b=new byte[256];
 			socket.Receive(b);
 			string text = Encoding.UTF8.GetString(b);
 
-			Debug.Log("StartTread : " + text);
 
 			object jsonvalue = Prime31.Json.jsonDecode(text);
 			if(jsonvalue is Dictionary<string, object>)
@@ -48,9 +45,7 @@ public class TcpPlayer : Player
 				base.UpdateInThread(JsonObject);
 			}
 
-		}	
-
-		Debug.Log("STOP ListenPlayer");
+		}
 	}
 	
 	public void Send(String message)
