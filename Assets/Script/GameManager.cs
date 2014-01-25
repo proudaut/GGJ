@@ -12,12 +12,5 @@ public class GameManager : MonoBehaviour {
 				lPlayer.StartGame();
 			}
 		}
-
-	}
-
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }
