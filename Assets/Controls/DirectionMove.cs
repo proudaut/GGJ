@@ -27,9 +27,31 @@ public class DirectionMove : MonoBehaviour
 		}
 		if(Input.GetMouseButtonUp(0))
 		{
-			Vector3 pushedPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			//Vector3 pushedPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+			var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+			RaycastHit hit;
+			if (Physics.Raycast (ray, out hit))
+			{
+				Vector3 pushedPosition =  hit.point;
+				
+				destination = new Vector3(pushedPosition.x, pushedPosition.y, transform.position.z);
+				velocity = (-(transform.position - destination)).normalized * speed;
+			}
+
+
+
+/*
+			Ray ray  = Camera.main.ScreenPointToRay(Input.mousePosition);    
+			Vector3 pushedPosition = ray.origin + (ray.direction);  
+
+
+			Debug.Log("click "+ pushedPosition.x + " " + pushedPosition.y + " " + pushedPosition.z);
+			Debug.Log("self "+ transform.position.x + " " + transform.position.y + " " + transform.position.z);
+
 			destination = new Vector3(pushedPosition.x, pushedPosition.y, transform.position.z);
-			velocity = (-(transform.position - destination)).normalized * speed;
+			velocity = (-(transform.position - destination)).normalized * speed;*/
+
 		}
 
 		if((transform.position - destination).sqrMagnitude <= (transform.position * percentageDifferenceAllowed).sqrMagnitude)
