@@ -49,6 +49,8 @@ public class Player
 			
 			mGamePlayer.GetComponent<UpdateNoControle>().mPlayer = this;
 		}
+		//inform gameobject his reference on Player object
+		mGamePlayer.GetComponent<PlayerIdentifier>().Identifier = this;
 	}
 
 

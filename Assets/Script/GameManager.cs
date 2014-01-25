@@ -16,6 +16,13 @@ public class GameManager : MonoBehaviour
 			foreach(int lKey in GameContext.instance.mDicPlayer.Keys)
 			{
 				GameContext.instance.mDicPlayer[lKey].StartGame();
+
+				//we are server (trolls)
+				if(SocketServer.instance != null)
+				{
+					if(GameContext.instance.mDicPlayer[lKey].mType == PlayerType.Gobelin)
+						GameContext.instance.mDicPlayer[lKey].mGamePlayer.GetComponent<PlayerIdentifier>().Hide();
+				}
 			}
 		}
 
@@ -83,6 +90,7 @@ public class GameManager : MonoBehaviour
 
 	private void VisionHit(object hitInfo)
 	{
-		Debug.Log("Troll hit goblin : " + hitInfo);
+		GameObject GoblinSpoted = (hitInfo as Object[])[1] as GameObject;
+		GoblinSpoted.GetComponent<PlayerIdentifier>().Show();
 	}
 }
