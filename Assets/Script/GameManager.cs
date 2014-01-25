@@ -91,14 +91,14 @@ public class GameManager : MonoBehaviour
 
 	private void VisionHit(object hitInfo)
 	{
-		GameObject GoblinSpoted = (hitInfo as Object[])[1] as GameObject;
+		GameObject GoblinSpoted = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject;
 		GoblinSpoted.GetComponent<PlayerIdentifier>().Show();
 	}
 
 	private void OnHit(object hitInfo)
 	{
-		GameObject Hiter = (hitInfo as Object[])[0] as GameObject;
-		GameObject Hited = (hitInfo as Object[])[1] as GameObject;
+		GameObject Hiter = ((hitInfo as Object[])[0] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
+		GameObject Hited = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
 
 		Debug.Log("Hiter : " + Hiter + " / hited : " + Hited);
 
