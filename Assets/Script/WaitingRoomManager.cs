@@ -12,21 +12,25 @@ public class WaitingRoomManager : MonoBehaviour
 				SocketClient.instance.StartSync();
 			}
 		}
-		if(SocketClient.instance.mSynchronizing  == true)
-		{
-			GUI.Label(new Rect(10, 10, 150, 100), "Synchronising....");
-		}
-		else
-		{
-			if (GUI.Button(new Rect(10, 10, 150, 100), "Synchronisation"))
+
+		if( SocketClient.instance.mConnected == false) 
+		{	
+			if(SocketClient.instance.mSynchronizing  == true)
 			{
-				SocketClient.instance.StartSync();
+				GUI.Label(new Rect(10, 10, 150, 100), "Synchronising....");
+			}
+			else
+			{
+				if (GUI.Button(new Rect(10, 10, 150, 100), "Synchronisation"))
+				{
+					SocketClient.instance.StartSync();
+				}
 			}
 		}
-
-		if( SocketClient.instance.mConnected) 
+		else 
 		{
-			GUI.Label(new Rect(10 , 150, 100, 100), "Connected");
+
+			GUI.Label(new Rect(10 , 150, 100, 100), "Connected as " + SocketClient.instance.mId);
 		}
 	}
 }

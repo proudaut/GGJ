@@ -11,6 +11,7 @@ public enum GameMessageType
 	ServerSync,
 	ClientSync,
 	PlayerHit,
+	GameStart,
 	End
 }
 
@@ -18,6 +19,13 @@ public enum PlayerType
 {
 	Troll,
 	Gobelin
+}
+
+public enum GameStatus
+{
+	Playing,
+	Win,
+	Lose
 }
 
 public enum SoloStageMode
@@ -32,6 +40,7 @@ public class GameContext : MonoBehaviour
 {
 	public Dictionary<int,Player> mDicPlayer = new Dictionary<int,Player>();
 	public static GameContext instance;
+	public GameManager mGameController;
 	private Thread mThreadSync;
 
 	List<int> mValuesListSynch = new List<int>();
@@ -122,6 +131,27 @@ public class GameContext : MonoBehaviour
 		}
 	}
 
+	public void ActionGameStart()
+	{
+		if(SocketServer.instance!= null)
+		{
+			List<int> lList = new List<int>();
+			lList.Add((int)GameMessageType.GameStart);
+			SocketServer.instance.SendToAllClientValues(lList);
+		}
+	}
+
+	public void ActionGameEnd(GameStatus lGameStatus)
+	{
+		if(SocketServer.instance!= null)
+		{
+			List<int> lList = new List<int>();
+			lList.Add((int)GameMessageType.End);
+			lList.Add((int)lGameStatus);
+			SocketServer.instance.SendToAllClientValues(lList);
+		}
+	}
+	
 	public void DidPlayerHit(int _SourceId, int _TargetId)
 	{
 		mDicPlayer[_SourceId].Hit();
