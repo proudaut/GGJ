@@ -45,8 +45,8 @@ public class GameManager : MonoBehaviour
 		while(true)
 		{
 			yield return new WaitForSeconds(1);
-			mTime.text = "" + (15 - lGameTime);
-			if(lGameTime == 15)
+			mTime.text = "" + (90 - lGameTime);
+			if(lGameTime == 90)
 			{
 				mTime.text = "";
 				PlayEndGameAnimation(GameStatus.Lose);
