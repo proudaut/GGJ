@@ -16,6 +16,6 @@ public class InputPlayer : Player
 		Debug.Log ("create player object");
 		//TO DO CREATE MONOBEAVIOR
 		mGamePlayer = GameObject.Instantiate (Resources.Load ("Player")) as GameObject;
-		mGamePlayer.GetComponent<inputMove> ().player_joy = mPlayer_joy;
+		mGamePlayer.GetComponent<inputMove> ().Setplayer_joy(mPlayer_joy);
 	}
 }

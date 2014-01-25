@@ -33,9 +33,7 @@ public class TcpPlayer : Player
 		{			
 			byte[] b=new byte[100];
 			socket.Receive(b);
-			Debug.Log("Recieved...");
 			string text = Encoding.UTF8.GetString(b);
-			Debug.Log("Recieved from " + mId + ":" + text);
 		}		
 	}
 	
@@ -43,7 +41,6 @@ public class TcpPlayer : Player
 	{
 		byte[] ba= Encoding.UTF8.GetBytes(message);
 		socket.Send(ba);
-		Debug.Log("\nSent :" + message);
 	}
 	
 	public void Close()

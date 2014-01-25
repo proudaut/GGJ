@@ -25,7 +25,9 @@ public class Player
 
 	public virtual void StartGame()
 	{
-		//override in inputPlayer
+		Debug.Log ("create player object");
+		//TO DO CREATE MONOBEAVIOR
+		mGamePlayer = GameObject.Instantiate (Resources.Load ("PlayerNoControle")) as GameObject;
 	}
 
 
@@ -56,7 +58,6 @@ public class Player
 
 	public void SetPlayerDictionary(Dictionary<string, object> _Dic)
     {
-		Debug.Log("SetPlayerDictionary");
 		mId = int.Parse(_Dic["Id"].ToString());
 		mType = int.Parse(_Dic["Type"].ToString());
 
@@ -67,10 +68,8 @@ public class Player
 				float x = float.Parse(_Dic["x"].ToString());
 				float y = float.Parse(_Dic["y"].ToString());
 				float z = float.Parse(_Dic["z"].ToString());
-
 				mGamePlayer.transform.position = new Vector3(x,y,z);
 			}
-		}
-		Debug.Log("SetPlayerDictionary" + mId); 
+		} 
 	}
 }

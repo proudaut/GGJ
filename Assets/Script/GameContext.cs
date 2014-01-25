@@ -20,7 +20,6 @@ public class GameContext : MonoBehaviour
 		GameContext.instance = this;
 		mListPlayer = _mListPlayer;
 		StartCoroutine(SynchServer());
-		
 	}
 
 	public void InitGame (List<System.Object> lArray)
@@ -56,7 +55,7 @@ public class GameContext : MonoBehaviour
 			}
 		
 			SocketServer.instance.SendToAllClient(Prime31.Json.jsonEncode(lArray));
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(0.1f);
 		}
 	}
 }
