@@ -36,12 +36,10 @@ public class inputMove : MonoBehaviour {
 			rigidbody.velocity = movement * speed;
 
 			if (Input.GetButton(player_joy + "_ButtonL1")) {
-				Debug.Log(player_joy + "button L1");
 				transform.Rotate (0, 0, rotation);
 			}
 
 			if (Input.GetButton(player_joy + "_ButtonL2")) {
-				Debug.Log(player_joy + "button L2");
 				transform.Rotate (0, 0, -rotation);
 			} 
 		}
