@@ -11,18 +11,18 @@ using System.Text;
 
 public class TcpPlayer : Player	
 {	
-	private byte[] mBytes =new byte[256];
+	private byte[] mBytes =new byte[40];
 	private Thread tread;	
 	private Socket socket;
 	private bool running = true;
-	public TcpPlayer (Socket s , int _id , int _type)	 : base(_id, _type)	
+	public TcpPlayer (Socket s , int _id , PlayerType _type)	 : base(_id, _type)	
 	{			
 		socket = s;
 		ThreadStart ts = new ThreadStart(ListenPlayer);
 		tread = new Thread(ts);		
 		tread.Start();
 
-		SendWelcome();
+		SendWelcomeValues();
 	}	
 	public void Destroy ()
 	{
@@ -35,15 +35,31 @@ public class TcpPlayer : Player
 		while(running)			
 		{			
 			socket.Receive(mBytes);
-			string text = Encoding.UTF8.GetString(mBytes);
-			object jsonvalue = Prime31.Json.jsonDecode(text);
-			if(jsonvalue is Dictionary<string, object>)
+			ParseByte();
+		}
+	}
+
+	public void ParseByte()
+	{
+		var valuesarr = new int[mBytes.Length / 4];
+		Buffer.BlockCopy(mBytes, 0, valuesarr, 0, mBytes.Length);
+		List<int> mReceivedData = new List<int> (valuesarr);
+
+
+		if(mReceivedData.Count>0)
+		{
+			GameMessageType requestType = (GameMessageType)mReceivedData[0];
+			switch(requestType)
 			{
-				Dictionary<string, object> JsonObject = (Dictionary<string, object>)jsonvalue;
-				base.SetPlayerDictionary(JsonObject);
+				case GameMessageType.ClientSync : 
+				List<int> values = mReceivedData.GetRange(1,9);
+				base.SetPlayerValues(values);
+				break;
 			}
 		}
 	}
+	
+
 	
 	public void Send(String message)
 	{
@@ -51,13 +67,22 @@ public class TcpPlayer : Player
 		socket.Send(ba);
 	}
 
-	
-	public void SendWelcome()
+	public void SendValues(List<int> intArray)
 	{
-		Dictionary<string, object> lDic = new Dictionary<string, object>();
-		lDic.Add("i", mId.ToString());
-		Send(Prime31.Json.jsonEncode(lDic));
+		byte[] result = new byte[intArray.ToArray().Length * sizeof(int)];
+		Buffer.BlockCopy(intArray.ToArray(), 0, result, 0, result.Length);
+		socket.Send(result);
 	}
+	
+
+	public void SendWelcomeValues()
+	{
+		List<int> lWelc = new List<int>();
+		lWelc.Add((int)GameMessageType.Start);
+		lWelc.Add(mId);
+		SendValues(lWelc);
+	}
+	
 
 	public void Close()
 	{

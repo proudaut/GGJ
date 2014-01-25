@@ -53,12 +53,12 @@ public class RoomManager : MonoBehaviour
 		if (Input.GetButtonDown("Player1_ButtonX") && player1 == false)
 		{
 			player1 = true;
-			mListPlayer.Add(new InputPlayer(SocketServer.instance.getId(),1,"Player1"));
+			mListPlayer.Add(new InputPlayer(SocketServer.instance.getId(),PlayerType.Troll,"Player1"));
 		}
 		if (Input.GetButtonDown("Player2_ButtonX") && player2 == false)
 		{
 			player2 = true;
-			mListPlayer.Add(new InputPlayer(SocketServer.instance.getId(),1,"Player2"));
+			mListPlayer.Add(new InputPlayer(SocketServer.instance.getId(),PlayerType.Troll,"Player2"));
 		}
 	}
 

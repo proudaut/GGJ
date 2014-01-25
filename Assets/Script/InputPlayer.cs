@@ -6,7 +6,7 @@ public class InputPlayer : Player
 	public float mRotation;
 	string mPlayer_joy;
 
-	public InputPlayer (int _id, int _type , string _inputname) : base(_id, _type)		
+	public InputPlayer (int _id, PlayerType _type , string _inputname) : base(_id, _type)		
 	{		
 		mPlayer_joy = _inputname;
 	}
