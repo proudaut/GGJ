@@ -5,7 +5,7 @@ public class inputMove : MonoBehaviour {
 
 	public float speed;
 	public float rotation;
-	private string player_joy = null;
+	public string player_joy = null;
 
 
 	public void Setplayer_joy(string _player_joy)
