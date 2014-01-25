@@ -151,11 +151,12 @@ public class GameContext : MonoBehaviour
 			SocketServer.instance.SendToAllClientValues(lList);
 		}
 	}
-	
+
 	public void DidPlayerHit(int _SourceId, int _TargetId)
 	{
 		mDicPlayer[_SourceId].Hit();
 		mDicPlayer[_TargetId].isHit();
+		mGameController.AddPoint(mDicPlayer[_SourceId].mType);
 	}
 
 }

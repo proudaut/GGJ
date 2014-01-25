@@ -10,6 +10,7 @@ public class Player
 	public PlayerType mType;
 	public float mSpeed;
 
+	public bool mAlive = true;
 	public Vector3 mCurrentPosition;
 	public Quaternion mCurrentRotation;
 
@@ -51,6 +52,8 @@ public class Player
 		}
 		//inform gameobject his reference on Player object
 		mGamePlayer.GetComponent<PlayerIdentifier>().Identifier = this;
+		Debug.Log ("spawn " + mId);
+		mGamePlayer.transform.position = GameObject.Find ("spawn " + mId).transform.position;
 	}
 
 
@@ -101,6 +104,7 @@ public class Player
 
 	public void isHit()
 	{
+		mGamePlayer.GetComponent<PlayerIdentifier>().Die();
 	}
 	
 	public void SetPlayerValues(List<int> _Values)
