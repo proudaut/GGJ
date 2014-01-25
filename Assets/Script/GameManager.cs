@@ -107,25 +107,28 @@ public class GameManager : MonoBehaviour
 
 	private void VisionHit(object hitInfo)
 	{
-		GameObject GoblinSpoted = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject;
-		GoblinSpoted.GetComponent<PlayerIdentifier>().Show();
+		if(((hitInfo as Object[])[1] as GameObject).layer == LayerMask.NameToLayer("Goblin"))
+		{
+			GameObject GoblinSpoted = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject;
+			GoblinSpoted.GetComponent<PlayerIdentifier>().Show();
+		}
 	}
 
 	private void OnHit(object hitInfo)
 	{
 		if(SocketServer.instance!= null)
 		{
-			GameObject Hiter = ((hitInfo as Object[])[0] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
-			GameObject Hited = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
-
-
-
-			if(Hiter.GetComponent<PlayerIdentifier>().Identifier.mType != Hited.GetComponent<PlayerIdentifier>().Identifier.mType && Hited.GetComponent<PlayerIdentifier>().Identifier.mAlive)
+			if(((hitInfo as Object[])[0] as GameObject).layer == LayerMask.NameToLayer("Goblin") && ((hitInfo as Object[])[1] as GameObject).layer == LayerMask.NameToLayer("Troll")
+		   	|| ((hitInfo as Object[])[0] as GameObject).layer == LayerMask.NameToLayer("Troll") && ((hitInfo as Object[])[1] as GameObject).layer == LayerMask.NameToLayer("Goblin") )
 			{
-				Debug.Log(Hiter.GetComponent<PlayerIdentifier>().Identifier.mType + " hit " + Hited.GetComponent<PlayerIdentifier>().Identifier.mType);
-
-				GameContext.instance.ActionPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier , Hited.GetComponent<PlayerIdentifier>().Identifier);
-				GameContext.instance.DidPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier.mId , Hited.GetComponent<PlayerIdentifier>().Identifier.mId);
+				GameObject Hiter = ((hitInfo as Object[])[0] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
+				GameObject Hited = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
+				if(  Hited.GetComponent<PlayerIdentifier>().Identifier.mAlive )
+				{
+					Debug.Log("Hiter : " + Hiter + " / hited : " + Hited);
+					GameContext.instance.ActionPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier , Hited.GetComponent<PlayerIdentifier>().Identifier);
+					GameContext.instance.DidPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier.mId , Hited.GetComponent<PlayerIdentifier>().Identifier.mId);
+				}
 			}
 		}
 	}
