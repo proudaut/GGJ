@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
 			mTime.text = "" + (15 - lGameTime);
 			if(lGameTime == 15)
 			{
+				mTime.text = "";
 				PlayEndGameAnimation(GameStatus.Lose);
 				GameContext.instance.ActionGameEnd(GameStatus.Win);
 				yield break;
