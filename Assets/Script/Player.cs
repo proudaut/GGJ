@@ -8,6 +8,7 @@ public class Player
 {
 	public int mId;
 	public int mType;
+	public float mSpeed;
 
 	public GameObject mGamePlayer;
 
@@ -22,9 +23,9 @@ public class Player
 		SetPlayerDictionary(_Dic);
 	}
 
-	public void StartGame()
+	public virtual void StartGame()
 	{
-		//TO DO CREATE MONOBEAVIOR
+		//override in inputPlayer
 	}
 
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class mover : MonoBehaviour {
+public class inputMove : MonoBehaviour {
 
 	public float speed;
 	public float rotation;
