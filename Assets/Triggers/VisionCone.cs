@@ -9,6 +9,7 @@ public class VisionCone : MonoBehaviour
 	public float Angle = 45f;
 	public int nbRays;
 	public Transform Origin;
+	public LayerMask DetectedLayers;
 
 	//working vars
 	private Vector3 targetDir;
@@ -35,10 +36,8 @@ public class VisionCone : MonoBehaviour
 		currentAngle = startAngle;
 		for(int i = 0 ; i < nbRays; i++)
 		{
-			Debug.Log(currentAngle);
 			ray.origin = Origin.position;
 			ray.direction = Quaternion.Euler(new Vector3(0f, 0f, currentAngle)) * transform.parent.up;
-
 
 			if(debug)
 			{
@@ -46,8 +45,9 @@ public class VisionCone : MonoBehaviour
 				Debug.DrawLine(ray.origin, end, Color.green);
 			}
 
-			if (Physics.Raycast(ray, out hitInfo, Distance))
+			if (Physics.Raycast(ray, out hitInfo, Distance, DetectedLayers))
 			{
+				Debug.Log("Vision hit goblin");
 				SendMessage("VisionHit", hitInfo, SendMessageOptions.DontRequireReceiver);
 			}
 			currentAngle -= subAngle;
