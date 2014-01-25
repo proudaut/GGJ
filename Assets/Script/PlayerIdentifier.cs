@@ -27,7 +27,17 @@ public class PlayerIdentifier : MonoBehaviour
 	IEnumerator DieAnimation()
 	{
 		Identifier.mAlive = false;
-		yield return new WaitForSeconds(3);
+		Graphical.SetActive( false );
+		yield return new WaitForSeconds(1.0f);
+
+		this.gameObject.transform.position = GameObject.Find ("spawn " + Identifier.mId).transform.position;
+
+		for(int i=0; i<10; i++)
+		{
+			Graphical.SetActive( !Graphical.activeSelf );
+			yield return new WaitForSeconds(0.4f);
+		}
+		Graphical.SetActive(true);
 		Identifier.mAlive = true;
 	}
 
