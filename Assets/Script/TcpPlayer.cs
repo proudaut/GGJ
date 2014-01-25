@@ -60,12 +60,6 @@ public class TcpPlayer : Player
 	}
 	
 
-	
-	public void Send(String message)
-	{
-		byte[] ba= Encoding.UTF8.GetBytes(message);
-		socket.Send(ba);
-	}
 
 	public void SendValues(List<int> intArray)
 	{

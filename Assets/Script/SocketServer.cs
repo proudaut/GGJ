@@ -78,13 +78,7 @@ public class SocketServer : MonoBehaviour
 		}
 	}
 
-	public void SendToAllClient(string message)
-	{
-		foreach(TcpPlayer lPoint in mListClient)
-		{
-			lPoint.Send(message);
-		}
-	}
+
 	public void SendToAllClientValues(List<int> _values)
 	{
 		foreach(TcpPlayer lPoint in mListClient)

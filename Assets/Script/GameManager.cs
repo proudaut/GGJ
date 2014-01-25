@@ -4,7 +4,8 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		if(GameContext.instance!=null)
 		{
 			foreach(int lKey in GameContext.instance.mDicPlayer.Keys)

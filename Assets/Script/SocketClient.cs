@@ -116,6 +116,11 @@ public class SocketClient : MonoBehaviour {
 					}
 					break;
 				case GameMessageType.PlayerHit :
+					mSourceId = mReceivedData[1];	
+					mTargetId = mReceivedData[1];
+					
+					this.gameObject.GetComponent<GameContext>().DidPlayerHit(mSourceId, mTargetId);
+				                                                         
 					break;
 				case GameMessageType.End :
 					break;

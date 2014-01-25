@@ -90,14 +90,16 @@ public class Player
 			lValues.Add(0);//z
 			lValues.Add(0);//w
 		}
-
-
-
 		return lValues;
 	}
 
+	public void Hit()
+	{
+	}
 
-
+	public void isHit()
+	{
+	}
 	
 	public void SetPlayerValues(List<int> _Values)
 	{

@@ -109,6 +109,23 @@ public class GameContext : MonoBehaviour
 			yield return new WaitForSeconds(0.1f);
 		}
 	}
-	
+
+	public void ActionPlayerHit(Player _Source, Player _Target)
+	{
+		if(SocketServer.instance!= null)
+		{
+			List<int> lList = new List<int>();
+			lList.Add((int)GameMessageType.PlayerHit);
+			lList.Add(_Source.mId);
+			lList.Add(_Target.mId);
+			SocketServer.instance.SendToAllClientValues(lList);
+		}
+	}
+
+	public void DidPlayerHit(int _SourceId, int _TargetId)
+	{
+		mDicPlayer[_SourceId].Hit();
+		mDicPlayer[_TargetId].isHit();
+	}
 
 }
