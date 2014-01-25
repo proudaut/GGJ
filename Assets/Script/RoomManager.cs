@@ -36,12 +36,12 @@ public class RoomManager : MonoBehaviour
 
 			foreach(TcpPlayer lPoint in SocketServer.instance.mListClient)
 			{
-				string clientname = "Client : " + lPoint.mId;
+				string clientname = "Client : " + lPoint.mId + " " +lPoint.mType;
 				GUI.Label(new Rect(10 + (100* lPoint.mId), 250, 100, 100), clientname);
 			}
 			foreach(Player lPoint in mListPlayer)
 			{
-				string clientname = "Client : " + lPoint.mId;
+				string clientname = "Client : " + lPoint.mId + " "  + lPoint.mType;
 				GUI.Label(new Rect(10 + (100* lPoint.mId), 250, 100, 100), clientname);
 			}
 		}
