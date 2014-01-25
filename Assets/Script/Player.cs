@@ -10,9 +10,8 @@ public class Player
 	public int mType;
 	public float mSpeed;
 
-	public float mx;
-	public float my;
-	public float mz;
+	public Vector3 mCurrentPosition;
+	public Quaternion mCurrentRotation;
 
 	
 	public GameObject mGamePlayer;
@@ -38,7 +37,15 @@ public class Player
 		}
 		else
 		{
-			mGamePlayer = GameObject.Instantiate (Resources.Load ("PlayerNoControle")) as GameObject;
+			if(mType == 1)
+			{
+				mGamePlayer = GameObject.Instantiate (Resources.Load ("TrollNoControle")) as GameObject;
+			}
+			else
+			{
+				mGamePlayer = GameObject.Instantiate (Resources.Load ("GoblinNoControle")) as GameObject;
+			}
+			
 			mGamePlayer.GetComponent<UpdateNoControle>().mPlayer = this;
 		}
 	}
@@ -58,66 +65,85 @@ public class Player
 			lDic.Add("x", lx.ToString());
 			lDic.Add("y", ly.ToString());
 			lDic.Add("z", lz.ToString());
+
+			int rx = Mathf.RoundToInt( mGamePlayer.transform.rotation.x * 100);
+			int ry = Mathf.RoundToInt( mGamePlayer.transform.rotation.y * 100);
+			int rz = Mathf.RoundToInt( mGamePlayer.transform.rotation.z * 100);
+			int rw = Mathf.RoundToInt( mGamePlayer.transform.rotation.w * 100);
+
+
+			lDic.Add("a", rx.ToString());
+			lDic.Add("b", ry.ToString());
+			lDic.Add("c", rz.ToString());
+			lDic.Add("d", rw.ToString());
 		}
 		return lDic;
 	}
 
-	public void Update(Dictionary<string, object> _Dic)
+
+	public List<int> GetPlayerValues()
 	{
-		if((SocketClient.instance!= null && SocketClient.instance.mId !=  mId) || SocketServer.instance != null)
-		{	
-			int lId = int.Parse(_Dic["i"].ToString());
-			if(lId == mId)
-			{
-				SetPlayerDictionary(_Dic);
-			}
+		List<int>  lValues = new List<int>();
+		lValues.Add(mId);
+		lValues.Add(mType);
+		
+		if(mGamePlayer != null)
+		{
+			int lx = Mathf.RoundToInt( mGamePlayer.transform.position.x * 100);
+			int ly = Mathf.RoundToInt( mGamePlayer.transform.position.y * 100);
+			int lz = Mathf.RoundToInt( mGamePlayer.transform.position.z * 100);
+			
+			lValues.Add(lx);
+			lValues.Add(ly);
+			lValues.Add(lz);
+
+			int rx = Mathf.RoundToInt( mGamePlayer.transform.rotation.x * 100);
+			int ry = Mathf.RoundToInt( mGamePlayer.transform.rotation.y * 100);
+			int rz = Mathf.RoundToInt( mGamePlayer.transform.rotation.z * 100);
+			int rw = Mathf.RoundToInt( mGamePlayer.transform.rotation.w * 100);
+
+			lValues.Add(rx);
+			lValues.Add(ry);
+			lValues.Add(rz);
+			lValues.Add(rw);
 		}
+		else
+		{
+			lValues.Add(0);//x
+			lValues.Add(0);//y
+			lValues.Add(0);//z
+
+			lValues.Add(0);//x
+			lValues.Add(0);//y
+			lValues.Add(0);//z
+			lValues.Add(0);//w
+		}
+
+
+
+		return lValues;
 	}
 
-	public void UpdateInThread(Dictionary<string, object> _Dic)
-	{
-		//if((SocketClient.instance!= null && SocketClient.instance.mId !=  mId) || SocketServer.instance != null)
-		{	
-			int lId = int.Parse(_Dic["i"].ToString());
-			if(lId == mId)
-			{
-				SetPlayerDictionaryInThread(_Dic);
-			}
-		}
-	}
 
-	public void SetPlayerDictionaryInThread(Dictionary<string, object> _Dic)
+
+	public void SetPlayerDictionary(Dictionary<string, object> _Dic)
 	{
 		mId = int.Parse(_Dic["i"].ToString());
 		mType = int.Parse(_Dic["t"].ToString());
 		
 		if(_Dic.ContainsKey("x"))
 		{
-			//if(mGamePlayer!=null)
-			{
-
-				mx = int.Parse(_Dic["x"].ToString())/100.0f;
-				my = int.Parse(_Dic["y"].ToString())/100.0f;
-				mz = int.Parse(_Dic["z"].ToString())/100.0f;
-			}
+			mCurrentPosition = new Vector3(int.Parse(_Dic["x"].ToString())/100.0f ,  int.Parse(_Dic["y"].ToString())/100.0f ,int.Parse(_Dic["z"].ToString())/100.0f);
+			mCurrentRotation = new Quaternion(int.Parse(_Dic["a"].ToString())/100.0f ,  int.Parse(_Dic["b"].ToString())/100.0f ,int.Parse(_Dic["c"].ToString())/100.0f,int.Parse(_Dic["d"].ToString())/100.0f);
 		} 
 	}
 
 	
-	public void SetPlayerDictionary(Dictionary<string, object> _Dic)
-    {
-		mId = int.Parse(_Dic["i"].ToString());
-		mType = int.Parse(_Dic["t"].ToString());
-
-		if(_Dic.ContainsKey("x"))
-		{
-			if(mGamePlayer!=null)
-			{
-				mx = int.Parse(_Dic["x"].ToString())/100.0f;
-				my = int.Parse(_Dic["y"].ToString())/100.0f;
-				mz = int.Parse(_Dic["z"].ToString())/100.0f;
-				mGamePlayer.transform.position = new Vector3(mx,my,mz);
-			}
-		} 
+	public void SetPlayerValues(List<int> _Values)
+	{
+		mId = _Values[0];
+		mType = _Values[1];
+		mCurrentPosition = new Vector3( _Values[2]/100.0f ,  _Values[3]/100.0f ,_Values[4]/100.0f);
+		mCurrentRotation = new Quaternion(_Values[5]/100.0f , _Values[6]/100.0f , _Values[7]/100.0f ,  _Values[8]/100.0f  );
 	}
 }

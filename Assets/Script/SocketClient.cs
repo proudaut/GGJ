@@ -17,6 +17,9 @@ public class SocketClient : MonoBehaviour {
 	public bool mConnected = false;
 	public bool mSynchronizing = false;
 	public int mId = -1;
+
+	byte[] mBytes = new byte[1024];
+
 	// Use this for initialization
 	public static SocketClient instance;
 	void Awake()
@@ -81,10 +84,8 @@ public class SocketClient : MonoBehaviour {
 	{
 		while(mConnected)			
 		{			
-			byte[] b=new byte[1024];
-			mServerStream.Read(b,0,1024);
-		
-			string text = Encoding.UTF8.GetString(b);
+			mServerStream.Read(mBytes,0,1024);
+			string text = Encoding.UTF8.GetString(mBytes);
 			if(string.IsNullOrEmpty(text) == false)
 			{
 				object jsonvalue = Prime31.Json.jsonDecode(text);

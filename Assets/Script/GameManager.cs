@@ -7,12 +7,11 @@ public class GameManager : MonoBehaviour {
 	void Start () {
 		if(GameContext.instance!=null)
 		{
-			foreach(Player lPlayer in GameContext.instance.mListPlayer)
+			foreach(int lKey in GameContext.instance.mDicPlayer.Keys)
 			{
-				lPlayer.StartGame();
+				GameContext.instance.mDicPlayer[lKey].StartGame();
 			}
 		}
-
 	}
 
 	
