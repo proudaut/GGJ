@@ -24,7 +24,7 @@ public class inputMove : MonoBehaviour {
 			float moveHorizontal = Input.GetAxis (player_joy + "_DirectionHorizontal");
 			float moveVertical = Input.GetAxis (player_joy + "_DirectionVertical");
 			
-			Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
+			Vector3 movement = new Vector3 (moveHorizontal, moveVertical, 0.0f);
 			rigidbody.velocity = movement * speed;
 			
 			float rHorizontal = Input.GetAxis (player_joy + "_CameraHorizontal");
