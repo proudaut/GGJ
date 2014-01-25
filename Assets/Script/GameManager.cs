@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
 	public UILabel mTime;
 	public UILabel mScoreGoblin;
 	public UILabel mScoreTroll;
+	public Animation mScoreAnimGoblin;
+	public Animation mScoreAnimTroll;
+	
 	// Use this for initialization
 	void Start () 
 	{
@@ -81,10 +84,12 @@ public class GameManager : MonoBehaviour
 		if(lPlayerType == PlayerType.Gobelin)
 		{
 			mScoreGoblin.text = "" + (int.Parse(mScoreGoblin.text)+1);
+			mScoreAnimGoblin.Play();
 		}
 		else
 		{
 			mScoreTroll.text = "" + (int.Parse(mScoreTroll.text)+1);
+			mScoreAnimTroll.Play();
 		}
 	}
 		
