@@ -11,6 +11,7 @@ using System.Text;
 
 public class TcpPlayer : Player	
 {	
+	private byte[] mBytes =new byte[256];
 	private Thread tread;	
 	private Socket socket;
 	private bool running = true;
@@ -33,24 +34,15 @@ public class TcpPlayer : Player
 	{		
 		while(running)			
 		{			
-			Debug.Log("Start ListenPlayer");
-
-			byte[] b=new byte[256];
-			socket.Receive(b);
-			string text = Encoding.UTF8.GetString(b);
-
-			Debug.Log("StartTread : " + text);
-
+			socket.Receive(mBytes);
+			string text = Encoding.UTF8.GetString(mBytes);
 			object jsonvalue = Prime31.Json.jsonDecode(text);
 			if(jsonvalue is Dictionary<string, object>)
 			{
 				Dictionary<string, object> JsonObject = (Dictionary<string, object>)jsonvalue;
-				base.UpdateInThread(JsonObject);
+				base.SetPlayerDictionary(JsonObject);
 			}
-
-		}	
-
-		Debug.Log("STOP ListenPlayer");
+		}
 	}
 	
 	public void Send(String message)
@@ -63,7 +55,7 @@ public class TcpPlayer : Player
 	public void SendWelcome()
 	{
 		Dictionary<string, object> lDic = new Dictionary<string, object>();
-		lDic.Add("Id", mId.ToString());
+		lDic.Add("i", mId.ToString());
 		Send(Prime31.Json.jsonEncode(lDic));
 	}
 
