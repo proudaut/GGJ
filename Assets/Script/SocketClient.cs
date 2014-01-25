@@ -105,7 +105,7 @@ public class SocketClient : MonoBehaviour {
 				else if(jsonvalue is Dictionary<string, object>)
 				{
 					Dictionary<string, object> JsonObject = (Dictionary<string, object>)jsonvalue;
-					mId = int.Parse(JsonObject["Id"].ToString());
+					mId = int.Parse(JsonObject["i"].ToString());
 				}
 			}
 		}	
@@ -113,10 +113,8 @@ public class SocketClient : MonoBehaviour {
 
 	public void SendToServer(String message)		
 	{
-		Debug.Log("Transmitting.....");
 		byte[] ba= Encoding.UTF8.GetBytes(message);
 		mServerStream.Write(ba,0,ba.Length);
-		Debug.Log("Transmitting....." + message);
 	}
 
 	void DisconnectToServer()		

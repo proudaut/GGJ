@@ -53,9 +53,13 @@ public class Player
 
 		if(mGamePlayer != null)
 		{
-			lDic.Add("x", mGamePlayer.transform.position.x.ToString());
-			lDic.Add("y", mGamePlayer.transform.position.y.ToString());
-			lDic.Add("z", mGamePlayer.transform.position.z.ToString());
+			int lx = Mathf.RoundToInt( mGamePlayer.transform.position.x * 100);
+			int ly = Mathf.RoundToInt( mGamePlayer.transform.position.y * 100);
+			int lz = Mathf.RoundToInt( mGamePlayer.transform.position.z * 100);
+
+			lDic.Add("x", lx.ToString());
+			lDic.Add("y", ly.ToString());
+			lDic.Add("z", lz.ToString());
 		}
 		return lDic;
 	}
@@ -93,9 +97,10 @@ public class Player
 		{
 			//if(mGamePlayer!=null)
 			{
-				mx = float.Parse(_Dic["x"].ToString());
-				my = float.Parse(_Dic["y"].ToString());
-				mz = float.Parse(_Dic["z"].ToString());
+
+				mx = int.Parse(_Dic["x"].ToString())/100.0f;
+				my = int.Parse(_Dic["y"].ToString())/100.0f;
+				mz = int.Parse(_Dic["z"].ToString())/100.0f;
 			}
 		} 
 	}
@@ -110,9 +115,9 @@ public class Player
 		{
 			if(mGamePlayer!=null)
 			{
-				mx = float.Parse(_Dic["x"].ToString());
-				my = float.Parse(_Dic["y"].ToString());
-				mz = float.Parse(_Dic["z"].ToString());
+				mx = int.Parse(_Dic["x"].ToString())/100.0f;
+				my = int.Parse(_Dic["y"].ToString())/100.0f;
+				mz = int.Parse(_Dic["z"].ToString())/100.0f;
 				mGamePlayer.transform.position = new Vector3(mx,my,mz);
 			}
 		} 
