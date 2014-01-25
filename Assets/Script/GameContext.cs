@@ -5,97 +5,110 @@ using System;
 using Prime31;
 using System.Threading;
 
+public enum GameMessageType
+{
+	Start = 4001,
+	ServerSync,
+	ClientSync,
+	PlayerHit,
+	End
+}
+
+public enum PlayerType
+{
+	Troll,
+	Gobelin
+}
+
+public enum SoloStageMode
+{
+	DialogueOnly,
+	OwnDeck,
+	CustomDeck
+}
+
+
 public class GameContext : MonoBehaviour
 {
-	public List<Player> mListPlayer = new List<Player>();
 	public Dictionary<int,Player> mDicPlayer = new Dictionary<int,Player>();
 	public static GameContext instance;
 	private Thread mThreadSync;
 
-	List<System.Object> mValuesListSynch = new List<System.Object>();
+	List<int> mValuesListSynch = new List<int>();
 
 
 	void Awake()
 	{
 		GameContext.instance = this;
 	}
-	public void InitGame (List<Player> _mListPlayer)		
+	public void InitGame (List<Player> _ListPlayer)		
 	{
 		GameContext.instance = this;
-		mListPlayer = _mListPlayer;
-		InitDicPlayer();
-		StartCoroutine(SynchServer());
-	}
-
-	public void InitDicPlayer()
-	{
-		foreach(Player lPlayer in mListPlayer)
+		foreach(Player lPlayer in _ListPlayer)
 		{
 			mDicPlayer.Add(lPlayer.mId, lPlayer);
 		}
+		StartCoroutine(SynchServerValues());
 	}
 
-
-	public void InitGame (List<System.Object> lArray)
+	
+	public void InitGameValues (List<int> lArray)
 	{
-		Debug.Log ("InitGame lGameContext");
-		foreach(Dictionary<string, object> lDicPlayer in lArray)
+		int count = lArray[1];
+		for(int i=0; i< count ; i++)
 		{
-			Player lPlayer =  new Player(lDicPlayer);
-			mListPlayer.Add(lPlayer);
+			List<int> values = lArray.GetRange(2+(i*9),9);
+			Player lPlayer =  new Player(values);
+			mDicPlayer.Add(lPlayer.mId, lPlayer);
 		}
-		InitDicPlayer();
-		StartCoroutine(SynchClient());
+		StartCoroutine(SynchClientValues());
 	}
-
-	public void UpdateGame(List<System.Object> lArray)
+	
+	public void UpdateGameValues(List<int> lArray)
 	{
-		foreach(Dictionary<string, object> lDicPlayer in lArray)
+		int count = lArray[1];
+		for(int i=0; i< count ; i++)
 		{
-			int id = int.Parse(lDicPlayer["i"].ToString());
-			mDicPlayer[id].SetPlayerDictionary(lDicPlayer);
+			List<int> values = lArray.GetRange(2+(i*9),9);
+			int id = values[0];
+			mDicPlayer[id].SetPlayerValues(values);
 		}
 	}
+	
 
 
-	public IEnumerator SynchServer()
+
+
+	public IEnumerator SynchServerValues()
 	{
 		while(true)
 		{
-			List<System.Object> lArray = new List<System.Object>();
+			mValuesListSynch.Clear();
+			mValuesListSynch.Add((int)GameMessageType.ServerSync);
+			mValuesListSynch.Add(mDicPlayer.Keys.Count);
+
 			foreach(int key in mDicPlayer.Keys)
 			{
-				lArray.Add(mDicPlayer[key].GetPlayerDictionary());
+				mValuesListSynch.AddRange(mDicPlayer[key].GetPlayerValues());
 			}
-		
-			SocketServer.instance.SendToAllClient(Prime31.Json.jsonEncode(lArray));
-			yield return new WaitForSeconds(0.1f);
-		}
-	}
 
-	/*public IEnumerator SynchServerValues()
-	{
-		while(true)
-		{
-
-			foreach(Player lPlayer in mListPlayer)
-			{
-				lArray.Add(lPlayer.GetPlayerDictionary());
-			}
 			
-			SocketServer.instance.SendToAllClient(Prime31.Json.jsonEncode(lArray));
-			yield return new WaitForSeconds(0.1f);
-		}
-	}*/
-
-
-
-	public IEnumerator SynchClient()
-	{
-		while(true)
-		{
-			SocketClient.instance.SendToServer(Prime31.Json.jsonEncode(mDicPlayer[SocketClient.instance.mId].GetPlayerDictionary()));
+			SocketServer.instance.SendToAllClientValues(mValuesListSynch);
 			yield return new WaitForSeconds(0.1f);
 		}
 	}
+
+	public IEnumerator SynchClientValues()
+	{
+		while(true)
+		{
+			mValuesListSynch.Clear();
+			mValuesListSynch.Add((int)GameMessageType.ClientSync);
+			mValuesListSynch.AddRange(mDicPlayer[SocketClient.instance.mId].GetPlayerValues());
+			SocketClient.instance.SendToServerValues(mValuesListSynch);
+			yield return new WaitForSeconds(0.1f);
+		}
+	}
+	
+
 }
