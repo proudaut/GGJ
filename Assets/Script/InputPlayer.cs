@@ -18,5 +18,8 @@ public class InputPlayer : Player
 		mGamePlayer = GameObject.Instantiate (Resources.Load ("Troll")) as GameObject;
 		mGamePlayer.GetComponent<inputMove> ().Setplayer_joy(mPlayer_joy);
 		mGamePlayer.GetComponent<PlayerIdentifier>().Identifier = this;
+
+		Debug.Log ("spawn " + mId);
+		mGamePlayer.transform.position = GameObject.Find ("spawn " + mId).transform.position;
 	}
 }

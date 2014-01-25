@@ -51,6 +51,8 @@ public class Player
 		}
 		//inform gameobject his reference on Player object
 		mGamePlayer.GetComponent<PlayerIdentifier>().Identifier = this;
+		Debug.Log ("spawn " + mId);
+		mGamePlayer.transform.position = GameObject.Find ("spawn " + mId).transform.position;
 	}
 
 
