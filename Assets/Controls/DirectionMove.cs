@@ -9,6 +9,7 @@ public class DirectionMove : MonoBehaviour
 	private Rigidbody rigidbody;
 	public Vector3 velocity;
 	private Vector3 destination;
+	private float percentageDifferenceAllowed = 0.05f;
 
 	void Awake()
 	{
@@ -31,8 +32,7 @@ public class DirectionMove : MonoBehaviour
 			velocity = (-(transform.position - destination)).normalized * speed;
 		}
 
-		if(transform.position == destination)
-			// TODO : approximate destination
+		if((transform.position - destination).sqrMagnitude <= (transform.position * percentageDifferenceAllowed).sqrMagnitude)
 			velocity = Vector3.zero;
 
 		rigidbody.velocity = velocity;
