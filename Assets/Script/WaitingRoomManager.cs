@@ -3,25 +3,20 @@ using System.Collections;
 
 public class WaitingRoomManager : MonoBehaviour
 {
+	public SlotRoom mSlot;
+	public UILabel mText;
 	void OnGUI() 
 	{
-		if (SocketClient.instance.mSynchronizing == false)
-		{
-			if (GUI.Button(new Rect(10, 10, 150, 100), "Synchronisation"))
-			{
-				SocketClient.instance.StartSync();
-			}
-		}
-
 		if( SocketClient.instance.mConnected == false) 
 		{	
 			if(SocketClient.instance.mSynchronizing  == true)
 			{
-				GUI.Label(new Rect(10, 10, 150, 100), "Synchronising....");
+				mText.text = "Connecting...";
+				mSlot.mFondGoblin.enabled = true;
 			}
 			else
 			{
-				if (GUI.Button(new Rect(10, 10, 150, 100), "Synchronisation"))
+				if (GUI.Button(new Rect(250, 150, 250, 100), "JOIN"))
 				{
 					SocketClient.instance.StartSync();
 				}
@@ -29,8 +24,9 @@ public class WaitingRoomManager : MonoBehaviour
 		}
 		else 
 		{
-
-			GUI.Label(new Rect(10 , 150, 100, 100), "Connected as " + SocketClient.instance.mId);
+			mText.text = "WAIT SERVER START";
+			mSlot.mIconGoblin.enabled = true;;
+			mSlot.mText.text = "P" + SocketClient.instance.mId;
 		}
 	}
 }
