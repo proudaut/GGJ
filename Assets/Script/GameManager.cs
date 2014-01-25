@@ -60,4 +60,9 @@ public class GameManager : MonoBehaviour
 		{
 		}
 	}
+
+	private void VisionHit(object hitInfo)
+	{
+		Debug.Log("Troll hit goblin : " + hitInfo);
+	}
 }
