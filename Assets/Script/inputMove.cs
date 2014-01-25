@@ -28,7 +28,7 @@ public class inputMove : MonoBehaviour {
 			rigidbody.velocity = movement * speed;
 			
 			float rHorizontal = Input.GetAxis (player_joy + "_CameraHorizontal");
-			rigidbody.MoveRotation(Quaternion.Euler (0.0f, rHorizontal * rotation, 0.0f));
+			rigidbody.MoveRotation(Quaternion.Euler (rHorizontal * rotation, 0.0f, 0.0f));
 			
 			if (Input.GetButtonDown(player_joy + "_ButtonX")){
 				Debug.Log(player_joy + "button X");
