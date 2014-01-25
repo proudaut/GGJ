@@ -38,5 +38,9 @@ public class DirectionMove : MonoBehaviour
 		rigidbody.velocity = velocity;
 	}
 
+	private void Collide(object collision)
+	{
+		velocity = Vector3.zero;
+	}
 	
 }

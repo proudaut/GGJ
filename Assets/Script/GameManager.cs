@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
@@ -12,11 +12,5 @@ public class GameManager : MonoBehaviour {
 				GameContext.instance.mDicPlayer[lKey].StartGame();
 			}
 		}
-	}
-
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }
