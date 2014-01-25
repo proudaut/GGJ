@@ -10,6 +10,10 @@ public class RoomManager : MonoBehaviour
 	bool player1 = false;
 	bool player2 = false;
 
+	public SlotRoom mSlot1;
+	public SlotRoom mSlot2;
+	public SlotRoom mSlot3;
+	public SlotRoom mSlot4;
 
 	void OnGUI() 
 	{
@@ -19,7 +23,7 @@ public class RoomManager : MonoBehaviour
 		}
 		else
 		{
-			if (GUI.Button(new Rect(10, 10, 100, 100), "Synchronisation"))
+			if (GUI.Button(new Rect(600, 370, 80, 80), "Sync"))
 			{
 				SocketServer.instance.StartSync();
 			}
@@ -29,20 +33,44 @@ public class RoomManager : MonoBehaviour
 
 		if(SocketServer.instance.mListClient.Count>0  || mListPlayer.Count >0)
 		{
-			if (GUI.Button(new Rect(10, 400, 100, 100), "Start"))
+			if (GUI.Button(new Rect(250, 350, 250, 60), "Start"))
 			{
 				StartGame();
 			}
 
 			foreach(TcpPlayer lPoint in SocketServer.instance.mListClient)
 			{
-				string clientname = "Client : " + lPoint.mId + " " +lPoint.mType;
-				GUI.Label(new Rect(10 + (100* lPoint.mId), 250, 100, 100), clientname);
+				if(mSlot1.mText.text ==  "P" + lPoint.mId  || mSlot2.mText.text ==  "P" + lPoint.mId)
+				{
+					break;
+				}
+				if(mSlot1.mIconGoblin.enabled == false)
+				{
+					mSlot1.mIconGoblin.enabled = true;;
+					mSlot1.mText.text = "P" + lPoint.mId;
+				}
+				else
+				{
+					mSlot2.mIconGoblin.enabled = true;;
+					mSlot2.mText.text = "P" + lPoint.mId;
+				}
 			}
 			foreach(Player lPoint in mListPlayer)
 			{
-				string clientname = "Client : " + lPoint.mId + " "  + lPoint.mType;
-				GUI.Label(new Rect(10 + (100* lPoint.mId), 250, 100, 100), clientname);
+				if(mSlot3.mText.text ==  "P" + lPoint.mId  || mSlot4.mText.text ==  "P" + lPoint.mId)
+				{
+					break;
+				}
+				if(mSlot3.mIconGoblin.enabled == false)
+				{
+					mSlot3.mIconGoblin.enabled = true;;
+					mSlot3.mText.text = "P" + lPoint.mId;
+				}
+				else
+				{
+					mSlot4.mIconGoblin.enabled = true;;
+					mSlot4.mText.text = "P" + lPoint.mId;
+				}
 			}
 		}
 	}
