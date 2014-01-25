@@ -4,6 +4,9 @@ using System.Collections;
 public class GameManager : MonoBehaviour 
 {
 	int lGameTime = 0;
+
+	public UILabel mText;
+	public UILabel mTime;
 	// Use this for initialization
 	void Start () 
 	{
@@ -19,7 +22,6 @@ public class GameManager : MonoBehaviour
 		if(SocketServer.instance!= null)
 		{
 			StartCoroutine(StartGame());
-			StartCoroutine(EndGame());
 		}
 	}
 
@@ -36,6 +38,7 @@ public class GameManager : MonoBehaviour
 		{
 			yield return new WaitForSeconds(1);
 			lGameTime++;
+			mTime.text = "" + (15 - lGameTime);
 			if(lGameTime == 15)
 			{
 				PlayEndGameAnimation(GameStatus.Lose);
@@ -48,16 +51,32 @@ public class GameManager : MonoBehaviour
 
 	public void PlayStartGameAnimation()
 	{
+		StartCoroutine(StartAnimation());
+	}
 
+	IEnumerator StartAnimation()
+	{
+		mText.text = "3";
+		yield return new WaitForSeconds(1);
+		mText.text = "2";
+		yield return new WaitForSeconds(1);
+		mText.text = "1";
+		yield return new WaitForSeconds(1);
+		mText.text = "Fight";
+		yield return new WaitForSeconds(1);
+		mText.text = "";
+		StartCoroutine(EndGame());
 	}
 
 	public void PlayEndGameAnimation(GameStatus lGameStatus)
 	{
 		if(lGameStatus == GameStatus.Lose)
 		{
+			mText.text = "YOU LOSE";
 		}
 		else if(lGameStatus == GameStatus.Win)
 		{
+			mText.text = "YOU WIN";
 		}
 	}
 
