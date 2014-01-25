@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
 		}
 		else
 		{
-			mScoreTroll.text = "" + (int.Parse(mScoreGoblin.text)+1);
+			mScoreTroll.text = "" + (int.Parse(mScoreTroll.text)+1);
 		}
 	}
 		
@@ -113,15 +113,20 @@ public class GameManager : MonoBehaviour
 
 	private void OnHit(object hitInfo)
 	{
-		GameObject Hiter = ((hitInfo as Object[])[0] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
-		GameObject Hited = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
-
-		Debug.Log("Hiter : " + Hiter + " / hited : " + Hited);
-
-		if(Hiter.GetComponent<PlayerIdentifier>().Identifier.mType != Hited.GetComponent<PlayerIdentifier>().Identifier.mType && Hited.GetComponent<PlayerIdentifier>().Identifier.mAlive)
+		if(SocketServer.instance!= null)
 		{
-			GameContext.instance.ActionPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier , Hited.GetComponent<PlayerIdentifier>().Identifier);
-			GameContext.instance.DidPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier.mId , Hited.GetComponent<PlayerIdentifier>().Identifier.mId);
+			GameObject Hiter = ((hitInfo as Object[])[0] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
+			GameObject Hited = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
+
+
+
+			if(Hiter.GetComponent<PlayerIdentifier>().Identifier.mType != Hited.GetComponent<PlayerIdentifier>().Identifier.mType && Hited.GetComponent<PlayerIdentifier>().Identifier.mAlive)
+			{
+				Debug.Log(Hiter.GetComponent<PlayerIdentifier>().Identifier.mType + " hit " + Hited.GetComponent<PlayerIdentifier>().Identifier.mType);
+
+				GameContext.instance.ActionPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier , Hited.GetComponent<PlayerIdentifier>().Identifier);
+				GameContext.instance.DidPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier.mId , Hited.GetComponent<PlayerIdentifier>().Identifier.mId);
+			}
 		}
 	}
 }
