@@ -22,12 +22,12 @@ public class VisionCone : MonoBehaviour
 	private float rayCount;
 	private RaycastHit hitInfo;
 
-	private object[] parameters;
+	private Object[] parameters;
 	private Ray ray;
 
 	void Awake()
 	{
-		parameters = new object[2];
+		parameters = new Object[2];
 		ray = new Ray();
 		Target = GameObject.Find("GameManager");
 	}
@@ -52,7 +52,9 @@ public class VisionCone : MonoBehaviour
 
 			if (Physics.Raycast(ray, out hitInfo, Distance, DetectedLayers))
 			{
-				Target.SendMessage("VisionHit", hitInfo, SendMessageOptions.DontRequireReceiver);
+				parameters[0] = this.gameObject.transform.parent.gameObject;
+				parameters[1] = hitInfo.collider.transform.parent.gameObject;
+				Target.SendMessage("VisionHit", parameters, SendMessageOptions.DontRequireReceiver);
 			}
 			currentAngle -= subAngle;
 		}

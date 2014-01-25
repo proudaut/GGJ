@@ -10,6 +10,8 @@ public class Player
 	public PlayerType mType;
 	public float mSpeed;
 
+	public float VisibleStartTime;
+
 	public Vector3 mCurrentPosition;
 	public Quaternion mCurrentRotation;
 
@@ -49,6 +51,8 @@ public class Player
 			
 			mGamePlayer.GetComponent<UpdateNoControle>().mPlayer = this;
 		}
+		//inform gameobject his reference on Player object
+		mGamePlayer.GetComponent<PlayerIdentifier>().Identifier = this;
 	}
 
 

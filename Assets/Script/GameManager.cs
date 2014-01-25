@@ -63,7 +63,20 @@ public class GameManager : MonoBehaviour
 
 	private void VisionHit(object hitInfo)
 	{
-		Debug.Log("Troll hit goblin : " + hitInfo);
-		//if(player
+		GameObject GoblinSpoted = (hitInfo as Object[])[1] as GameObject;
+
+	}
+
+	void Update()
+	{
+		//we are server (trolls)
+		if(SocketServer.instance != null)
+		{
+			foreach(Player player in GameContext.instance.mDicPlayer.Values)
+			{
+				//if(player.mType == PlayerType.Gobelin)
+					//player.mGamePlayer.get
+			}
+		}
 	}
 }
