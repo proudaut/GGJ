@@ -12,6 +12,7 @@ public class VisionCone : MonoBehaviour
 	public LayerMask DetectedLayers;
 
 	private GameObject Target;
+	public string Function;
 
 	//working vars
 	private Vector3 targetDir;
@@ -52,9 +53,9 @@ public class VisionCone : MonoBehaviour
 
 			if (Physics.Raycast(ray, out hitInfo, Distance, DetectedLayers))
 			{
-				parameters[0] = this.gameObject.transform.parent.gameObject;
-				parameters[1] = hitInfo.collider.transform.parent.gameObject;
-				Target.SendMessage("VisionHit", parameters, SendMessageOptions.DontRequireReceiver);
+				parameters[0] = this.gameObject;
+				parameters[1] = hitInfo.collider.gameObject;
+				Target.SendMessage(Function, parameters, SendMessageOptions.DontRequireReceiver);
 			}
 			currentAngle -= subAngle;
 		}

@@ -61,7 +61,7 @@ public class SocketClient : MonoBehaviour {
 				TcpClient tcpclnt = new TcpClient();
 				Debug.Log("Connecting.....");
 				
-				tcpclnt.Connect("192.168.13.155",8001);
+				tcpclnt.Connect("192.168.13.113",8001);
 				// use the ipaddress as in the server program
 				mConnected =true;
 				
