@@ -80,19 +80,14 @@ public class SocketClient : MonoBehaviour {
 	{
 		while(mConnected)			
 		{			
-			byte[] b=new byte[100];
-			mServerStream.Read(b,0,100);
+			byte[] b=new byte[1024];
+			mServerStream.Read(b,0,1024);
 			string text = Encoding.UTF8.GetString(b);
-			Debug.Log ("Receive " + text);
 
 			List<System.Object> JsonObject = (List<System.Object>)Prime31.Json.jsonDecode(text);
 
-			Debug.Log ("Parsed " + Prime31.Json.jsonEncode(JsonObject));
-
-
 			if(this.gameObject.GetComponent<GameContext>() == null)
 			{
-				Debug.Log ("create lGameContext");
 				GameContext lGameContext = this.gameObject.AddComponent<GameContext>();
 				lGameContext.InitGame(JsonObject);
 				Application.LoadLevel("Game");

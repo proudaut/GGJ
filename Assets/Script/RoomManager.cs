@@ -7,6 +7,9 @@ public class RoomManager : MonoBehaviour
 {
 	private SocketServer mSocketServer;
 	public List<Player> mListPlayer = new List<Player>();	
+	bool player1 = false;
+	bool player2 = false;
+
 
 	void OnGUI() 
 	{
@@ -36,18 +39,25 @@ public class RoomManager : MonoBehaviour
 				string clientname = "Client : " + lPoint.mId;
 				GUI.Label(new Rect(10 + (100* lPoint.mId), 250, 100, 100), clientname);
 			}
+			foreach(Player lPoint in mListPlayer)
+			{
+				string clientname = "Client : " + lPoint.mId;
+				GUI.Label(new Rect(10 + (100* lPoint.mId), 250, 100, 100), clientname);
+			}
 		}
 	}
 
 	
 	void FixedUpdate ()
 	{
-		if (Input.GetButtonDown("Player1_ButtonX"))
+		if (Input.GetButtonDown("Player1_ButtonX") && player1 == false)
 		{
+			player1 = true;
 			mListPlayer.Add(new InputPlayer(SocketServer.instance.getId(),1,"Player1"));
 		}
-		if (Input.GetButtonDown("Player2_ButtonX"))
+		if (Input.GetButtonDown("Player2_ButtonX") && player2 == false)
 		{
+			player2 = true;
 			mListPlayer.Add(new InputPlayer(SocketServer.instance.getId(),1,"Player2"));
 		}
 	}
