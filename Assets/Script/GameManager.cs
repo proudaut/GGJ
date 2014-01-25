@@ -94,4 +94,17 @@ public class GameManager : MonoBehaviour
 		GameObject GoblinSpoted = (hitInfo as Object[])[1] as GameObject;
 		GoblinSpoted.GetComponent<PlayerIdentifier>().Show();
 	}
+
+	private void OnHit(object hitInfo)
+	{
+		GameObject Hiter = (hitInfo as Object[])[0] as GameObject;
+		GameObject Hited = (hitInfo as Object[])[1] as GameObject;
+
+		Debug.Log("Hiter : " + Hiter + " / hited : " + Hited);
+
+		if(Hiter.GetComponent<PlayerIdentifier>().Identifier.mType != Hited.GetComponent<PlayerIdentifier>().Identifier.mType)
+		{
+			Debug.Log(Hiter.GetComponent<PlayerIdentifier>().Identifier.mType + " hit " + Hited.GetComponent<PlayerIdentifier>().Identifier.mType);
+		}
+	}
 }
