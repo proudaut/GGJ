@@ -37,14 +37,14 @@ public class GameManager : MonoBehaviour
 		while(true)
 		{
 			yield return new WaitForSeconds(1);
-			lGameTime++;
 			mTime.text = "" + (15 - lGameTime);
 			if(lGameTime == 15)
 			{
 				PlayEndGameAnimation(GameStatus.Lose);
 				GameContext.instance.ActionGameEnd(GameStatus.Win);
+				yield break;
 			}
-			yield break;
+			lGameTime++;
 		}
 	}
 	
