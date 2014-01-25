@@ -21,13 +21,17 @@ public class PlayerIdentifier : MonoBehaviour
 
 	void Update()
 	{
-		if(Time.time <= visibleStartTime + visibleDuration)
+		//For trolls, hide goblins
+		if(SocketServer.instance != null && Identifier != null && Identifier.mType == PlayerType.Gobelin)
 		{
-			Graphical.SetActive(true);
-		}
-		else
-		{
-			Hide();
+			if(Time.time <= visibleStartTime + visibleDuration)
+			{
+				Graphical.SetActive(true);
+			}
+			else
+			{
+				Hide();
+			}
 		}
 	}
 }

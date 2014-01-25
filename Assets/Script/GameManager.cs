@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 				//we are server (trolls)
 				if(SocketServer.instance != null)
 				{
+					//hide all gobelins
 					if(GameContext.instance.mDicPlayer[lKey].mType == PlayerType.Gobelin)
 						GameContext.instance.mDicPlayer[lKey].mGamePlayer.GetComponent<PlayerIdentifier>().Hide();
 				}
