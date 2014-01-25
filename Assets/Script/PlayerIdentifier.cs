@@ -28,14 +28,14 @@ public class PlayerIdentifier : MonoBehaviour
 	{
 		Identifier.mAlive = false;
 		Graphical.SetActive( false );
-		yield return new WaitForSeconds(1.0f);
-
+		yield return new WaitForEndOfFrame();
 		this.gameObject.transform.position = GameObject.Find ("spawn " + Identifier.mId).transform.position;
 
-		for(int i=0; i<10; i++)
+		yield return new WaitForSeconds(2.0f);
+		for(int i=0; i<4; i++)
 		{
 			Graphical.SetActive( !Graphical.activeSelf );
-			yield return new WaitForSeconds(0.4f);
+			yield return new WaitForSeconds(0.8f);
 		}
 		Graphical.SetActive(true);
 		Identifier.mAlive = true;
