@@ -59,7 +59,9 @@ public class RoomManager : MonoBehaviour
 		{
 			mListPlayer.Add(ltcpPlayer);
 		}
-		new GameContext(mListPlayer);
+
+		GameContext lGameContext = SocketServer.instance.gameObject.AddComponent<GameContext>();
+		lGameContext.InitGame(mListPlayer);
 		Application.LoadLevel("Game");
 	}
 }

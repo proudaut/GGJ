@@ -17,7 +17,7 @@ public class Player
 		mId = _id;
 	}
 
-	public Player (Dictionary<string, string> _Dic)		
+	public Player (Dictionary<string, object> _Dic)		
 	{		
 		SetPlayerDictionary(_Dic);
 	}
@@ -29,9 +29,9 @@ public class Player
 
 
 
-	public Dictionary<string, string> GetPlayerDictionary()
+	public Dictionary<string, object> GetPlayerDictionary()
 	{
-		Dictionary<string, string> lDic = new Dictionary<string, string>();
+		Dictionary<string, object> lDic = new Dictionary<string, object>();
 		lDic.Add("Id", mId.ToString());
 		lDic.Add("Type", mType.ToString());
 
@@ -44,8 +44,18 @@ public class Player
 		return lDic;
 	}
 
-	public void SetPlayerDictionary(Dictionary<string, string> _Dic)
+	public void Update(Dictionary<string, object> _Dic)
+	{
+		int lId = int.Parse(_Dic["Id"].ToString());
+		if(lId == mId)
+		{
+			SetPlayerDictionary(_Dic);
+		}
+	}
+
+	public void SetPlayerDictionary(Dictionary<string, object> _Dic)
     {
+		Debug.Log("SetPlayerDictionary");
 		mId = int.Parse(_Dic["Id"].ToString());
 		mType = int.Parse(_Dic["Type"].ToString());
 
@@ -56,7 +66,10 @@ public class Player
 				float x = float.Parse(_Dic["x"].ToString());
 				float y = float.Parse(_Dic["y"].ToString());
 				float z = float.Parse(_Dic["z"].ToString());
+
+				mGamePlayer.transform.position = new Vector3(x,y,z);
 			}
 		}
+		Debug.Log("SetPlayerDictionary" + mId); 
 	}
 }

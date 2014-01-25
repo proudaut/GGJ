@@ -5,34 +5,58 @@ using System;
 using Prime31;
 using System.Threading;
 
-public class GameContext  
+public class GameContext : MonoBehaviour
 {
 	public List<Player> mListPlayer = new List<Player>();	
 	public static GameContext instance;
 	private Thread mThreadSync;
-	public GameContext (List<Player> _mListPlayer)		
+
+	void Awake()
+	{
+		GameContext.instance = this;
+	}
+	public void InitGame (List<Player> _mListPlayer)		
 	{
 		GameContext.instance = this;
 		mListPlayer = _mListPlayer;
-		ThreadStart ts = new ThreadStart(SynchServer );		
-		mThreadSync = new Thread(ts);		
-		mThreadSync.Start();
+		StartCoroutine(SynchServer());
+		
 	}
 
-	public void SynchServer()
+	public void InitGame (List<System.Object> lArray)
 	{
-		/*while(true)
+		Debug.Log ("InitGame lGameContext");
+		foreach(Dictionary<string, object> lDicPlayer in lArray)
 		{
+			Player lPlayer =  new Player(lDicPlayer);
+			mListPlayer.Add(lPlayer);
+		}
+	}
 
-			ArrayList lArray = new ArrayList();
+	public void UpdateGame(List<System.Object> lArray)
+	{
+		foreach(Dictionary<string, object> lDicPlayer in lArray)
+		{
 			foreach(Player lPlayer in mListPlayer)
 			{
-				lArray.Add(
+				lPlayer.Update(lDicPlayer);
 			}
+		}
+	}
 
 
-			SocketServer.instance.SendToAllClient();
-			Thread.Sleep(500);
-		}*/
+	public IEnumerator SynchServer()
+	{
+		while(true)
+		{
+			List<System.Object> lArray = new List<System.Object>();
+			foreach(Player lPlayer in mListPlayer)
+			{
+				lArray.Add(lPlayer.GetPlayerDictionary());
+			}
+		
+			SocketServer.instance.SendToAllClient(Prime31.Json.jsonEncode(lArray));
+			yield return new WaitForSeconds(0.5f);
+		}
 	}
 }
