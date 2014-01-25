@@ -1,11 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Controls/DirectionMove.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/GameContext.cs">
     <Files>
-      <File FileName="Assets/Script/RoomManager.cs" Line="45" Column="50" />
-      <File FileName="Assets/Controls/DirectionMove.cs" Line="28" Column="32" />
-      <File FileName="Assets/Script/Player.cs" Line="29" Column="3" />
-      <File FileName="Assets/Script/InputPlayer.cs" Line="21" Column="2" />
+      <File FileName="Assets/Script/RoomManager.cs" Line="42" Column="29" />
+      <File FileName="Assets/Script/GameContext.cs" Line="8" Column="1" />
+      <File FileName="Assets/Script/Player.cs" Line="34" Column="2" />
+      <File FileName="Assets/Script/SocketClient.cs" Line="25" Column="14" />
+      <File FileName="Assets/Script/SocketServer.cs" Line="95" Column="2" />
+      <File FileName="Assets/Script/TcpPlayer.cs" Line="53" Column="39" />
+      <File FileName="Assets/Script/WaitingRoomManager.cs" Line="31" Column="3" />
+      <File FileName="Assets/Script/GameManager.cs" Line="14" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

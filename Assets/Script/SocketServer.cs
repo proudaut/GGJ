@@ -85,7 +85,14 @@ public class SocketServer : MonoBehaviour
 			lPoint.Send(message);
 		}
 	}
-
+	public void SendToAllClientValues(List<int> _values)
+	{
+		foreach(TcpPlayer lPoint in mListClient)
+		{
+			lPoint.SendValues(_values);
+		}
+	}
+	
 
 	public string LocalIP()
 	{

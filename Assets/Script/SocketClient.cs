@@ -18,7 +18,7 @@ public class SocketClient : MonoBehaviour {
 	public bool mSynchronizing = false;
 	public int mId = -1;
 
-	byte[] mBytes = new byte[1024];
+	byte[] mBytes = new byte[256];
 
 	// Use this for initialization
 	public static SocketClient instance;
@@ -84,39 +84,91 @@ public class SocketClient : MonoBehaviour {
 	{
 		while(mConnected)			
 		{			
-			mServerStream.Read(mBytes,0,1024);
-			string text = Encoding.UTF8.GetString(mBytes);
-			if(string.IsNullOrEmpty(text) == false)
+			mServerStream.Read(mBytes,0,256);
+			//ParseJson();
+			ParseByte();
+
+		}	
+	}
+	public void ParseByte()
+	{
+		var values = new int[mBytes.Length / 4];
+		Buffer.BlockCopy(mBytes, 0, values, 0, mBytes.Length);
+		List<int> mReceivedData = new List<int> (values);
+
+
+		if(mReceivedData.Count>0)
+		{
+			GameMessageType requestType = (GameMessageType)mReceivedData[0];
+			switch(requestType)
 			{
-				object jsonvalue = Prime31.Json.jsonDecode(text);
-				if(jsonvalue is List<System.Object>)
-				{
-					List<System.Object> JsonObject = (List<System.Object>)jsonvalue;
+				case GameMessageType.Start:
+					mId = mReceivedData[1];
+					break;
+				case GameMessageType.ServerSync :
 					if(this.gameObject.GetComponent<GameContext>() == null)
 					{
 						GameContext lGameContext = this.gameObject.AddComponent<GameContext>();
-						lGameContext.InitGame(JsonObject);
+						lGameContext.InitGameValues(mReceivedData);
 						Application.LoadLevel("Game");
 					}
 					else
 					{
-						this.gameObject.GetComponent<GameContext>().UpdateGame(JsonObject);
+						this.gameObject.GetComponent<GameContext>().UpdateGameValues(mReceivedData);
 					}
-				}
-				else if(jsonvalue is Dictionary<string, object>)
-				{
-					Dictionary<string, object> JsonObject = (Dictionary<string, object>)jsonvalue;
-					mId = int.Parse(JsonObject["i"].ToString());
-				}
+					break;
+				case GameMessageType.PlayerHit :
+					break;
+				case GameMessageType.End :
+					break;
 			}
-		}	
+		}
 	}
 
+
+
+
+	public void ParseJson()
+	{
+		string text = Encoding.UTF8.GetString(mBytes);
+		if(string.IsNullOrEmpty(text) == false)
+		{
+			object jsonvalue = Prime31.Json.jsonDecode(text);
+			if(jsonvalue is List<System.Object>)
+			{
+				List<System.Object> JsonObject = (List<System.Object>)jsonvalue;
+				if(this.gameObject.GetComponent<GameContext>() == null)
+				{
+					GameContext lGameContext = this.gameObject.AddComponent<GameContext>();
+					lGameContext.InitGame(JsonObject);
+					Application.LoadLevel("Game");
+				}
+				else
+				{
+					this.gameObject.GetComponent<GameContext>().UpdateGame(JsonObject);
+				}
+			}
+			else if(jsonvalue is Dictionary<string, object>)
+			{
+				Dictionary<string, object> JsonObject = (Dictionary<string, object>)jsonvalue;
+				mId = int.Parse(JsonObject["i"].ToString());
+			}
+		}
+	}
+	
 	public void SendToServer(String message)		
 	{
 		byte[] ba= Encoding.UTF8.GetBytes(message);
 		mServerStream.Write(ba,0,ba.Length);
 	}
+
+	public void SendToServerValues(List<int> intArray)		
+	{
+		byte[] result = new byte[intArray.ToArray().Length * sizeof(int)];
+		Buffer.BlockCopy(intArray.ToArray(), 0, result, 0, result.Length);
+		mServerStream.Write(result,0,result.Length);
+	}
+
 
 	void DisconnectToServer()		
 	{

@@ -28,6 +28,7 @@ public class UpdateNoControle : MonoBehaviour
 				this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position,mNextPosition, time) ;
 			}
 
+			this.gameObject.transform.rotation = mPlayer.mCurrentRotation;
 		}
 	}
 }

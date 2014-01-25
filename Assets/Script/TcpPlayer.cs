@@ -11,7 +11,7 @@ using System.Text;
 
 public class TcpPlayer : Player	
 {	
-	private byte[] mBytes =new byte[256];
+	private byte[] mBytes =new byte[40];
 	private Thread tread;	
 	private Socket socket;
 	private bool running = true;
@@ -22,7 +22,8 @@ public class TcpPlayer : Player
 		tread = new Thread(ts);		
 		tread.Start();
 
-		SendWelcome();
+		//SendWelcome();
+		SendWelcomeValues();
 	}	
 	public void Destroy ()
 	{
@@ -35,13 +36,40 @@ public class TcpPlayer : Player
 		while(running)			
 		{			
 			socket.Receive(mBytes);
-			string text = Encoding.UTF8.GetString(mBytes);
-			object jsonvalue = Prime31.Json.jsonDecode(text);
-			if(jsonvalue is Dictionary<string, object>)
+			//ParseJson();
+			ParseByte();
+		}
+	}
+
+	public void ParseByte()
+	{
+		var valuesarr = new int[mBytes.Length / 4];
+		Buffer.BlockCopy(mBytes, 0, valuesarr, 0, mBytes.Length);
+		List<int> mReceivedData = new List<int> (valuesarr);
+
+
+		if(mReceivedData.Count>0)
+		{
+			GameMessageType requestType = (GameMessageType)mReceivedData[0];
+			switch(requestType)
 			{
-				Dictionary<string, object> JsonObject = (Dictionary<string, object>)jsonvalue;
-				base.SetPlayerDictionary(JsonObject);
+				case GameMessageType.ClientSync : 
+				List<int> values = mReceivedData.GetRange(1,9);
+				base.SetPlayerValues(values);
+				break;
 			}
+		}
+	}
+	
+
+	public void ParseJson()
+	{
+		string text = Encoding.UTF8.GetString(mBytes);
+		object jsonvalue = Prime31.Json.jsonDecode(text);
+		if(jsonvalue is Dictionary<string, object>)
+		{
+			Dictionary<string, object> JsonObject = (Dictionary<string, object>)jsonvalue;
+			base.SetPlayerDictionary(JsonObject);
 		}
 	}
 	
@@ -51,6 +79,12 @@ public class TcpPlayer : Player
 		socket.Send(ba);
 	}
 
+	public void SendValues(List<int> intArray)
+	{
+		byte[] result = new byte[intArray.ToArray().Length * sizeof(int)];
+		Buffer.BlockCopy(intArray.ToArray(), 0, result, 0, result.Length);
+		socket.Send(result);
+	}
 	
 	public void SendWelcome()
 	{
@@ -58,6 +92,15 @@ public class TcpPlayer : Player
 		lDic.Add("i", mId.ToString());
 		Send(Prime31.Json.jsonEncode(lDic));
 	}
+
+	public void SendWelcomeValues()
+	{
+		List<int> lWelc = new List<int>();
+		lWelc.Add((int)GameMessageType.Start);
+		lWelc.Add(mId);
+		SendValues(lWelc);
+	}
+	
 
 	public void Close()
 	{

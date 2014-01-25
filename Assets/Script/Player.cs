@@ -27,6 +27,11 @@ public class Player
 		SetPlayerDictionary(_Dic);
 	}
 
+	public Player (List<int> _Array)		
+	{		
+		SetPlayerValues(_Array);
+	}
+	
 	public virtual void StartGame()
 	{
 		Debug.Log ("create player object");
