@@ -10,8 +10,6 @@ public class Player
 	public PlayerType mType;
 	public float mSpeed;
 
-	public float VisibleStartTime;
-
 	public Vector3 mCurrentPosition;
 	public Quaternion mCurrentRotation;
 
