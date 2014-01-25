@@ -40,18 +40,6 @@ public class DirectionMove : MonoBehaviour
 			}
 
 
-
-/*
-			Ray ray  = Camera.main.ScreenPointToRay(Input.mousePosition);    
-			Vector3 pushedPosition = ray.origin + (ray.direction);  
-
-
-			Debug.Log("click "+ pushedPosition.x + " " + pushedPosition.y + " " + pushedPosition.z);
-			Debug.Log("self "+ transform.position.x + " " + transform.position.y + " " + transform.position.z);
-
-			destination = new Vector3(pushedPosition.x, pushedPosition.y, transform.position.z);
-			velocity = (-(transform.position - destination)).normalized * speed;*/
-
 		}
 
 		if((transform.position - destination).sqrMagnitude <= (transform.position * percentageDifferenceAllowed).sqrMagnitude)
@@ -62,6 +50,6 @@ public class DirectionMove : MonoBehaviour
 
 	private void Collide(object collision)
 	{
-		velocity = Vector3.zero;
+		//velocity = Vector3.zero;
 	}
 }

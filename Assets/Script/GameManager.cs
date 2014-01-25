@@ -51,8 +51,18 @@ public class GameManager : MonoBehaviour
 			if(lGameTime == 90)
 			{
 				mTime.text = "";
-				PlayEndGameAnimation(GameStatus.Lose);
-				GameContext.instance.ActionGameEnd(GameStatus.Win);
+				if(int.Parse(mScoreGoblin.text) > int.Parse(mScoreTroll.text))
+				{
+					PlayEndGameAnimation(GameStatus.Lose);
+					GameContext.instance.ActionGameEnd(GameStatus.Win);
+				}
+				else
+				{
+					PlayEndGameAnimation(GameStatus.Win);
+					GameContext.instance.ActionGameEnd(GameStatus.Lose);
+				}
+
+
 				yield break;
 			}
 			lGameTime++;
@@ -90,7 +100,11 @@ public class GameManager : MonoBehaviour
 		mText.text = "Fight";
 		yield return new WaitForSeconds(1);
 		mText.text = "";
-		StartCoroutine(EndGame());
+
+		if(SocketServer.instance!= null)
+		{
+			StartCoroutine(EndGame());
+		}
 	}
 
 	public void PlayEndGameAnimation(GameStatus lGameStatus)
@@ -118,8 +132,8 @@ public class GameManager : MonoBehaviour
 	{
 		if(SocketServer.instance!= null)
 		{
-			if(((hitInfo as Object[])[0] as GameObject).layer == LayerMask.NameToLayer("Goblin") && ((hitInfo as Object[])[1] as GameObject).layer == LayerMask.NameToLayer("Troll")
-		   	|| ((hitInfo as Object[])[0] as GameObject).layer == LayerMask.NameToLayer("Troll") && ((hitInfo as Object[])[1] as GameObject).layer == LayerMask.NameToLayer("Goblin") )
+			if(((hitInfo as Object[])[0] as GameObject).layer == LayerMask.NameToLayer("Hit") && ((hitInfo as Object[])[1] as GameObject).layer == LayerMask.NameToLayer("Hited")
+		   	|| ((hitInfo as Object[])[0] as GameObject).layer == LayerMask.NameToLayer("Hited") && ((hitInfo as Object[])[1] as GameObject).layer == LayerMask.NameToLayer("Hit") )
 			{
 				GameObject Hiter = ((hitInfo as Object[])[0] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
 				GameObject Hited = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
