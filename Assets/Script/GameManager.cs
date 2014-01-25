@@ -91,19 +91,23 @@ public class GameManager : MonoBehaviour
 
 	private void VisionHit(object hitInfo)
 	{
-		GameObject GoblinSpoted = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject;
-		GoblinSpoted.GetComponent<PlayerIdentifier>().Show();
+		if(((hitInfo as Object[])[1] as GameObject).layer == LayerMask.NameToLayer("Goblin"))
+		{
+			GameObject GoblinSpoted = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject;
+			GoblinSpoted.GetComponent<PlayerIdentifier>().Show();
+		}
 	}
 
 	private void OnHit(object hitInfo)
 	{
-		GameObject Hiter = ((hitInfo as Object[])[0] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
-		GameObject Hited = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
-
-		Debug.Log("Hiter : " + Hiter + " / hited : " + Hited);
-
-		if(Hiter.GetComponent<PlayerIdentifier>().Identifier.mType != Hited.GetComponent<PlayerIdentifier>().Identifier.mType)
+		if(((hitInfo as Object[])[0] as GameObject).layer == LayerMask.NameToLayer("Goblin") && ((hitInfo as Object[])[1] as GameObject).layer == LayerMask.NameToLayer("Troll")
+		   || ((hitInfo as Object[])[0] as GameObject).layer == LayerMask.NameToLayer("Troll") && ((hitInfo as Object[])[1] as GameObject).layer == LayerMask.NameToLayer("Goblin"))
 		{
+			GameObject Hiter = ((hitInfo as Object[])[0] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
+			GameObject Hited = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
+
+			Debug.Log("Hiter : " + Hiter + " / hited : " + Hited);
+
 			Debug.Log(Hiter.GetComponent<PlayerIdentifier>().Identifier.mType + " hit " + Hited.GetComponent<PlayerIdentifier>().Identifier.mType);
 		}
 	}
