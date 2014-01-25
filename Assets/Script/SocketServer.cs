@@ -59,7 +59,7 @@ public class SocketServer : MonoBehaviour
 			Socket s=myList.AcceptSocket();
 
 			Debug.Log("Find Client");
-			mListClient.Add(new TcpPlayer(s , getId() ,  0));
+			mListClient.Add(new TcpPlayer(s , getId() ,  PlayerType.Gobelin));
 			mSynchronizing = false;
 			myList.Stop();
 		}

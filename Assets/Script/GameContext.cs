@@ -48,22 +48,10 @@ public class GameContext : MonoBehaviour
 		{
 			mDicPlayer.Add(lPlayer.mId, lPlayer);
 		}
-		//StartCoroutine(SynchServer());
 		StartCoroutine(SynchServerValues());
 	}
 
-
-	public void InitGame (List<System.Object> lArray)
-	{
-		Debug.Log ("InitGame lGameContext");
-		foreach(Dictionary<string, object> lDicPlayer in lArray)
-		{
-			Player lPlayer =  new Player(lDicPlayer);
-			mDicPlayer.Add(lPlayer.mId, lPlayer);
-		}
-		StartCoroutine(SynchClient());
-	}
-
+	
 	public void InitGameValues (List<int> lArray)
 	{
 		int count = lArray[1];
@@ -73,7 +61,6 @@ public class GameContext : MonoBehaviour
 			Player lPlayer =  new Player(values);
 			mDicPlayer.Add(lPlayer.mId, lPlayer);
 		}
-		//StartCoroutine(SynchClient());
 		StartCoroutine(SynchClientValues());
 	}
 	
@@ -88,30 +75,9 @@ public class GameContext : MonoBehaviour
 		}
 	}
 	
-	public void UpdateGame(List<System.Object> lArray)
-	{
-		foreach(Dictionary<string, object> lDicPlayer in lArray)
-		{
-			int id = int.Parse(lDicPlayer["i"].ToString());
-			mDicPlayer[id].SetPlayerDictionary(lDicPlayer);
-		}
-	}
 
 
-	public IEnumerator SynchServer()
-	{
-		while(true)
-		{
-			List<System.Object> lArray = new List<System.Object>();
-			foreach(int key in mDicPlayer.Keys)
-			{
-				lArray.Add(mDicPlayer[key].GetPlayerDictionary());
-			}
-		
-			SocketServer.instance.SendToAllClient(Prime31.Json.jsonEncode(lArray));
-			yield return new WaitForSeconds(0.1f);
-		}
-	}
+
 
 	public IEnumerator SynchServerValues()
 	{
@@ -144,12 +110,5 @@ public class GameContext : MonoBehaviour
 		}
 	}
 	
-	public IEnumerator SynchClient()
-	{
-		while(true)
-		{
-			SocketClient.instance.SendToServer(Prime31.Json.jsonEncode(mDicPlayer[SocketClient.instance.mId].GetPlayerDictionary()));
-			yield return new WaitForSeconds(0.1f);
-		}
-	}
+
 }

@@ -15,14 +15,13 @@ public class TcpPlayer : Player
 	private Thread tread;	
 	private Socket socket;
 	private bool running = true;
-	public TcpPlayer (Socket s , int _id , int _type)	 : base(_id, _type)	
+	public TcpPlayer (Socket s , int _id , PlayerType _type)	 : base(_id, _type)	
 	{			
 		socket = s;
 		ThreadStart ts = new ThreadStart(ListenPlayer);
 		tread = new Thread(ts);		
 		tread.Start();
 
-		//SendWelcome();
 		SendWelcomeValues();
 	}	
 	public void Destroy ()
@@ -36,7 +35,6 @@ public class TcpPlayer : Player
 		while(running)			
 		{			
 			socket.Receive(mBytes);
-			//ParseJson();
 			ParseByte();
 		}
 	}
@@ -62,16 +60,6 @@ public class TcpPlayer : Player
 	}
 	
 
-	public void ParseJson()
-	{
-		string text = Encoding.UTF8.GetString(mBytes);
-		object jsonvalue = Prime31.Json.jsonDecode(text);
-		if(jsonvalue is Dictionary<string, object>)
-		{
-			Dictionary<string, object> JsonObject = (Dictionary<string, object>)jsonvalue;
-			base.SetPlayerDictionary(JsonObject);
-		}
-	}
 	
 	public void Send(String message)
 	{
@@ -86,12 +74,6 @@ public class TcpPlayer : Player
 		socket.Send(result);
 	}
 	
-	public void SendWelcome()
-	{
-		Dictionary<string, object> lDic = new Dictionary<string, object>();
-		lDic.Add("i", mId.ToString());
-		Send(Prime31.Json.jsonEncode(lDic));
-	}
 
 	public void SendWelcomeValues()
 	{
