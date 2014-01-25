@@ -14,7 +14,7 @@ public class DirectionMove : MonoBehaviour
 	void Awake()
 	{
 		if(rigidbody == null)
-			rigidbody = GetComponent<Rigidbody>();
+			rigidbody = GetComponentInChildren<Rigidbody>();
 	}
 
 	void FixedUpdate() 
@@ -42,5 +42,4 @@ public class DirectionMove : MonoBehaviour
 	{
 		velocity = Vector3.zero;
 	}
-	
 }

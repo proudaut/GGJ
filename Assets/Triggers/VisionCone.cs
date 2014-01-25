@@ -22,10 +22,12 @@ public class VisionCone : MonoBehaviour
 	private float rayCount;
 	private RaycastHit hitInfo;
 
+	private object[] parameters;
 	private Ray ray;
 
 	void Awake()
 	{
+		parameters = new object[2];
 		ray = new Ray();
 		Target = GameObject.Find("GameManager");
 	}
