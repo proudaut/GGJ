@@ -17,5 +17,6 @@ public class InputPlayer : Player
 		//TO DO CREATE MONOBEAVIOR
 		mGamePlayer = GameObject.Instantiate (Resources.Load ("Troll")) as GameObject;
 		mGamePlayer.GetComponent<inputMove> ().Setplayer_joy(mPlayer_joy);
+		mGamePlayer.GetComponent<PlayerIdentifier>().Identifier = this;
 	}
 }
