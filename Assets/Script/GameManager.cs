@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 
 	public UILabel mText;
 	public UILabel mTime;
+	public UILabel mScoreGoblin;
+	public UILabel mScoreTroll;
 	// Use this for initialization
 	void Start () 
 	{
@@ -63,6 +65,20 @@ public class GameManager : MonoBehaviour
 		StartCoroutine(StartAnimation());
 	}
 
+
+	public void AddPoint(PlayerType lPlayerType)
+	{
+		if(lPlayerType == PlayerType.Gobelin)
+		{
+			mScoreGoblin.text = "" + (int.Parse(mScoreGoblin.text)+1);
+		}
+		else
+		{
+			mScoreTroll.text = "" + (int.Parse(mScoreGoblin.text)+1);
+		}
+	}
+		
+
 	IEnumerator StartAnimation()
 	{
 		mText.text = "3";
@@ -102,9 +118,10 @@ public class GameManager : MonoBehaviour
 
 		Debug.Log("Hiter : " + Hiter + " / hited : " + Hited);
 
-		if(Hiter.GetComponent<PlayerIdentifier>().Identifier.mType != Hited.GetComponent<PlayerIdentifier>().Identifier.mType)
+		if(Hiter.GetComponent<PlayerIdentifier>().Identifier.mType != Hited.GetComponent<PlayerIdentifier>().Identifier.mType && Hited.GetComponent<PlayerIdentifier>().Identifier.mAlive)
 		{
-			Debug.Log(Hiter.GetComponent<PlayerIdentifier>().Identifier.mType + " hit " + Hited.GetComponent<PlayerIdentifier>().Identifier.mType);
+			GameContext.instance.ActionPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier , Hited.GetComponent<PlayerIdentifier>().Identifier);
+			GameContext.instance.DidPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier.mId , Hited.GetComponent<PlayerIdentifier>().Identifier.mId);
 		}
 	}
 }

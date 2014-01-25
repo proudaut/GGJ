@@ -19,6 +19,19 @@ public class PlayerIdentifier : MonoBehaviour
 		Graphical.SetActive(false);
 	}
 
+	public void Die()
+	{
+		StartCoroutine(DieAnimation());
+	}
+
+	IEnumerator DieAnimation()
+	{
+		Identifier.mAlive = false;
+		yield return new WaitForSeconds(3);
+		Identifier.mAlive = true;
+	}
+
+
 	void Update()
 	{
 		//For trolls, hide goblins
