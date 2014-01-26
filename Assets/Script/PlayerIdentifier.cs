@@ -5,18 +5,36 @@ public class PlayerIdentifier : MonoBehaviour
 {
 	public Player Identifier;
 	public GameObject Graphical;
+	public inputMove m_Controller1;
+	public DirectionMove m_Controller2;
+
 
 	private float visibleStartTime;
 	private float visibleDuration = 1f;
 
 	public void Show()
 	{
-		visibleStartTime = Time.time;
+		if(Identifier.mAlive)
+		{
+			visibleStartTime = Time.time;
+		}
 	}
 
 	public void Hide()
 	{
 		Graphical.SetActive(false);
+	}
+
+	public void StartMove()
+	{
+		if(m_Controller1 != null)
+		{
+			m_Controller1.mActive=true;
+		}
+		if(m_Controller2 != null)
+		{
+			m_Controller2.mActive=true;
+		}
 	}
 
 	public void Die()
@@ -25,22 +43,51 @@ public class PlayerIdentifier : MonoBehaviour
 		{
 			Identifier.mAlive = false;
 			Graphical.SetActive(false);
-			this.gameObject.transform.position = GameObject.Find ("spawn " + Random.Range(1,8)).transform.position;
+
+			if(m_Controller1 != null)
+			{
+				m_Controller1.mActive=false;
+			}
+			if(m_Controller2 != null)
+			{
+				m_Controller2.mActive=false;
+			}
 			StartCoroutine(DieAnimation());
 		}
 	}
 
 	IEnumerator DieAnimation()
 	{
-		yield return new WaitForSeconds(2.0f);
-		for(int i=0; i<4; i++)
+		yield return new WaitForSeconds(1.0f);
+		this.gameObject.transform.position = GameObject.Find ("spawn " + Random.Range(1,8)).transform.position;
+		yield return new WaitForSeconds(1.0f);
+
+		visibleStartTime = 0;
+
+		if(m_Controller1 != null)
 		{
-			yield return new WaitForSeconds(0.5f);
-			Graphical.SetActive( !Graphical.activeSelf);
-			yield return new WaitForSeconds(0.5f);
+			m_Controller1.mActive=true;
 		}
-		Graphical.SetActive(true);
-		Identifier.mAlive = true;
+		if(m_Controller2 != null)
+		{
+			m_Controller2.mActive=true;
+		}
+		if(Identifier.mType == PlayerType.Gobelin && SocketServer.instance != null)
+		{
+			yield return new WaitForSeconds(3.0f);
+			Identifier.mAlive = true;
+		}
+		else
+		{
+			for(int i=0; i<4; i++)
+			{
+				yield return new WaitForSeconds(0.5f);
+				Graphical.SetActive( !Graphical.activeSelf);
+				yield return new WaitForSeconds(0.5f);
+			}
+			Graphical.SetActive(true);
+			Identifier.mAlive = true;
+		}
 	}
 
 

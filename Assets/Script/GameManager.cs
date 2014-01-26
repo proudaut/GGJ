@@ -106,6 +106,12 @@ public class GameManager : MonoBehaviour
 		yield return new WaitForSeconds(1);
 		mText.text = "";
 
+
+		foreach(int lKey in GameContext.instance.mDicPlayer.Keys)
+		{
+			GameContext.instance.mDicPlayer[lKey].StartMove();
+		}
+
 		if(SocketServer.instance!= null)
 		{
 			StartCoroutine(EndGame());

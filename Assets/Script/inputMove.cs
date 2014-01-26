@@ -6,7 +6,7 @@ public class inputMove : MonoBehaviour {
 	public float speed;
 	public float rotation;
 	public string player_joy = null;
-
+	public bool mActive = false;
 
 	public void Setplayer_joy(string _player_joy)
 	{
@@ -19,29 +19,36 @@ public class inputMove : MonoBehaviour {
 	
 	void FixedUpdate ()
 	{
-		if(player_joy != null)
+		if( mActive )
 		{
-
-			float moveHorizontal = Input.GetAxis (player_joy + "_DirectionHorizontal");
-			float moveVertical = Input.GetAxis (player_joy + "_DirectionVertical");
-			Vector3 movement = new Vector3 (moveHorizontal, moveVertical, 0.0f);
-	
-			if (movement == Vector3.zero) {
-				float moveHorizontalJoy = Input.GetAxis (player_joy + "_DirectionHorizontal_joy");
-				float moveVerticalJoy = Input.GetAxis (player_joy + "_DirectionVertical_joy");
-				movement = new Vector3 (moveHorizontalJoy, moveVerticalJoy, 0.0f);
+			if(player_joy != null)
+			{
+				
+				float moveHorizontal = Input.GetAxis (player_joy + "_DirectionHorizontal");
+				float moveVertical = Input.GetAxis (player_joy + "_DirectionVertical");
+				Vector3 movement = new Vector3 (moveHorizontal, moveVertical, 0.0f);
+				
+				if (movement == Vector3.zero) {
+					float moveHorizontalJoy = Input.GetAxis (player_joy + "_DirectionHorizontal_joy");
+					float moveVerticalJoy = Input.GetAxis (player_joy + "_DirectionVertical_joy");
+					movement = new Vector3 (moveHorizontalJoy, moveVerticalJoy, 0.0f);
+				}
+				
+				
+				rigidbody.velocity = movement * speed;
+				
+				if (Input.GetButton(player_joy + "_ButtonL1")) {
+					transform.Rotate (0, 0, rotation);
+				}
+				
+				if (Input.GetButton(player_joy + "_ButtonL2")) {
+					transform.Rotate (0, 0, -rotation);
+				} 
 			}
-
-
-			rigidbody.velocity = movement * speed;
-
-			if (Input.GetButton(player_joy + "_ButtonL1")) {
-				transform.Rotate (0, 0, rotation);
-			}
-
-			if (Input.GetButton(player_joy + "_ButtonL2")) {
-				transform.Rotate (0, 0, -rotation);
-			} 
+		}
+		else
+		{
+			rigidbody.velocity  = new Vector3();
 		}
 	}
 }
