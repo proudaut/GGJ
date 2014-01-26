@@ -24,6 +24,7 @@ public class DirectionMove : MonoBehaviour
 			Vector3 pushedPosition = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
 			destination = new Vector3(pushedPosition.x, pushedPosition.y, transform.position.z);
 			velocity = (-(transform.position - destination)).normalized * speed;
+			this.gameObject.transform.up = (-(transform.position - destination)).normalized;
 		}
 		if(Input.GetMouseButtonUp(0))
 		{
@@ -37,15 +38,15 @@ public class DirectionMove : MonoBehaviour
 				
 				destination = new Vector3(pushedPosition.x, pushedPosition.y, transform.position.z);
 				velocity = (-(transform.position - destination)).normalized * speed;
+				this.gameObject.transform.up = (-(transform.position - destination)).normalized;
 			}
-
-
 		}
 
 		if((transform.position - destination).sqrMagnitude <= (transform.position * percentageDifferenceAllowed).sqrMagnitude)
 			velocity = Vector3.zero;
 
 		rigidbody.velocity = velocity;
+
 	}
 
 	private void Collide(object collision)
