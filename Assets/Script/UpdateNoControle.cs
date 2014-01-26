@@ -27,7 +27,7 @@ public class UpdateNoControle : MonoBehaviour
 				mNextRotation = mPlayer.mCurrentRotation;
 				startTime = Time.time;
 			}
-			float time = (Time.time - startTime) / 0.18f;
+			float time = (Time.time - startTime) / 0.3f;
 			if(this.gameObject.transform.position != mNextPosition && time <= 1)
 			{
 				this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position,mNextPosition, time) ;

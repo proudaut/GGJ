@@ -36,6 +36,10 @@ public class GameManager : MonoBehaviour
 		{
 			StartCoroutine(StartGame());
 		}
+		else
+		{
+			StartCoroutine(CounterAnim());
+		}
 	}
 
 	IEnumerator StartGame()
@@ -45,6 +49,21 @@ public class GameManager : MonoBehaviour
 		GameContext.instance.ActionGameStart();
 	}
 
+	IEnumerator CounterAnim()
+	{
+		while(true)
+		{
+			yield return new WaitForSeconds(1);
+			mTime.text = "" + (90 - lGameTime);
+			if(lGameTime == 120)
+			{
+				mTime.text = "";
+				yield break;
+			}
+			lGameTime++;
+		}
+	}
+		
 	IEnumerator EndGame()
 	{
 		while(true)
@@ -97,13 +116,13 @@ public class GameManager : MonoBehaviour
 	IEnumerator StartAnimation()
 	{
 		mText.text = "3";
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(0.5f);
 		mText.text = "2";
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(0.5f);
 		mText.text = "1";
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(0.5f);
 		mText.text = "Fight";
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(0.5f);
 		mText.text = "";
 
 
@@ -148,7 +167,7 @@ public class GameManager : MonoBehaviour
 			{
 				GameObject Hiter = ((hitInfo as Object[])[0] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
 				GameObject Hited = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
-				if(  Hiter.layer != Hited.layer && Hited.GetComponent<PlayerIdentifier>().Identifier.mAlive )
+				if(  Hiter.layer != Hited.layer && Hited.GetComponent<PlayerIdentifier>().Identifier.mAlive  && Hiter.GetComponent<PlayerIdentifier>().Identifier.mAlive)
 				{
 					Debug.Log("Hiter : " + Hiter + " / hited : " + Hited);
 					GameContext.instance.ActionPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier , Hited.GetComponent<PlayerIdentifier>().Identifier);

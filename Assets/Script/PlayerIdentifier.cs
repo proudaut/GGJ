@@ -92,9 +92,9 @@ public class PlayerIdentifier : MonoBehaviour
 		{
 			for(int i=0; i<4; i++)
 			{
-				yield return new WaitForSeconds(0.5f);
+				yield return new WaitForSeconds(0.2f);
 				Graphical.SetActive( !Graphical.activeSelf);
-				yield return new WaitForSeconds(0.5f);
+				yield return new WaitForSeconds(0.2f);
 			}
 			Graphical.SetActive(true);
 			Identifier.mAlive = true;

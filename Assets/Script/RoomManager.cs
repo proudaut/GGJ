@@ -15,22 +15,17 @@ public class RoomManager : MonoBehaviour
 	public SlotRoom mSlot3;
 	public SlotRoom mSlot4;
 
+
+	void Start()
+	{
+		SocketServer.instance.StartSync();
+	}
+	void Destroy()
+	{
+		SocketServer.instance.StopSync();
+	}
 	void OnGUI() 
 	{
-		if(SocketServer.instance.mSynchronizing == true)
-		{
-			GUI.Label(new Rect(10, 10, 150, 100), "Synchronising....");
-		}
-		else
-		{
-			if (GUI.Button(new Rect(600, 370, 80, 80), "Sync"))
-			{
-				SocketServer.instance.StartSync();
-			}
-		}
-		
-
-
 		if(SocketServer.instance.mListClient.Count>0  || mListPlayer.Count >0)
 		{
 			if (GUI.Button(new Rect(250, 350, 250, 60), "Start"))

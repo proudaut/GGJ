@@ -30,16 +30,16 @@ public class SocketServer : MonoBehaviour
 		instance = this;
 		DontDestroyOnLoad(this);
 	}
-	IEnumerator StopSync()
+
+	public void StopSync()
 	{
-		yield return new WaitForSeconds(5f);
 		mThreadSync.Abort();
 		mThreadSync = null;
 		mSynchronizing = false;
 	}
+
 	public void StartSync()
 	{
-		StartCoroutine(StopSync());
 		mSynchronizing = true;
 		ThreadStart ts = new ThreadStart(SyncSearch );		
 		mThreadSync = new Thread(ts);		
