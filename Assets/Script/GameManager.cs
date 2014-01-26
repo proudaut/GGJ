@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
 			{
 				GameObject Hiter = ((hitInfo as Object[])[0] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
 				GameObject Hited = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
-				if(  Hited.GetComponent<PlayerIdentifier>().Identifier.mAlive )
+				if(  Hiter.layer != Hited.layer && Hited.GetComponent<PlayerIdentifier>().Identifier.mAlive )
 				{
 					Debug.Log("Hiter : " + Hiter + " / hited : " + Hited);
 					GameContext.instance.ActionPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier , Hited.GetComponent<PlayerIdentifier>().Identifier);
