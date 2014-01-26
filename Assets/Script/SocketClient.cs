@@ -81,6 +81,11 @@ public class SocketClient : MonoBehaviour {
 	}
 
 
+
+
+
+
+
 	void ListenServer()		
 	{
 		while(mConnected)			
