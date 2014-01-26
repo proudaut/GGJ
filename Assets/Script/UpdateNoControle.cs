@@ -21,14 +21,14 @@ public class UpdateNoControle : MonoBehaviour
 	{
 		if(mPlayer!= null)
 		{
-			if( mNextPosition != mPlayer.mCurrentPosition )
+			if( mNextPosition != mPlayer.mCurrentPosition ||  mNextRotation != mPlayer.mCurrentRotation)
 			{
 				mNextPosition = mPlayer.mCurrentPosition;
 				mNextRotation = mPlayer.mCurrentRotation;
 				startTime = Time.time;
 			}
-			float time = (Time.time - startTime) / 0.3f;
-			if(this.gameObject.transform.position != mNextPosition && time <= 1 && mPlayer.mAlive)
+			float time = (Time.time - startTime) / 0.2f;
+			if( (this.gameObject.transform.position != mNextPosition || this.gameObject.transform.rotation != mNextRotation) && time <= 1 && mPlayer.mAlive)
 			{
 				this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position,mNextPosition, time) ;
 				this.gameObject.transform.rotation = Quaternion.Lerp(this.gameObject.transform.rotation,mNextRotation, time) ;

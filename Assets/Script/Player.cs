@@ -71,19 +71,15 @@ public class Player
 		{
 			int lx = Mathf.RoundToInt( mGamePlayer.transform.position.x * 100);
 			int ly = Mathf.RoundToInt( mGamePlayer.transform.position.y * 100);
-			int lz = Mathf.RoundToInt( mGamePlayer.transform.position.z * 100);
 			
 			lValues.Add(lx);
 			lValues.Add(ly);
-			lValues.Add(lz);
 
-			int rx = Mathf.RoundToInt( mGamePlayer.transform.rotation.x * 100);
-			int ry = Mathf.RoundToInt( mGamePlayer.transform.rotation.y * 100);
+
 			int rz = Mathf.RoundToInt( mGamePlayer.transform.rotation.z * 100);
 			int rw = Mathf.RoundToInt( mGamePlayer.transform.rotation.w * 100);
 
-			lValues.Add(rx);
-			lValues.Add(ry);
+
 			lValues.Add(rz);
 			lValues.Add(rw);
 		}
@@ -91,18 +87,11 @@ public class Player
 		{
 			lValues.Add(0);//x
 			lValues.Add(0);//y
-			lValues.Add(0);//z
 
-			lValues.Add(0);//x
-			lValues.Add(0);//y
 			lValues.Add(0);//z
 			lValues.Add(0);//w
 		}
 
-		foreach(int disV in lValues)
-		{
-			Debug.Log(disV);
-		}
 
 		return lValues;
 	}
@@ -120,7 +109,7 @@ public class Player
 	{
 		mId = _Values[0];
 		mType =(PlayerType) _Values[1];
-		mCurrentPosition = new Vector3( _Values[2]/100.0f ,  _Values[3]/100.0f ,_Values[4]/100.0f);
-		mCurrentRotation = new Quaternion(_Values[5]/100.0f , _Values[6]/100.0f , _Values[7]/100.0f ,  _Values[8]/100.0f  );
+		mCurrentPosition = new Vector3( _Values[2]/100.0f ,  _Values[3]/100.0f ,0);
+		mCurrentRotation = new Quaternion(0 ,0 , _Values[4]/100.0f ,  _Values[5]/100.0f  );
 	}
 }

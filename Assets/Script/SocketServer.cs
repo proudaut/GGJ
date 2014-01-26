@@ -50,7 +50,7 @@ public class SocketServer : MonoBehaviour
 	void SyncSearch()		
 	{
 		try {
-			IPAddress ipAd = IPAddress.Parse(LocalIP());
+			IPAddress ipAd = IPAddress.Parse(Config.ip);
 
 			Debug.Log("Looking For New Client");
 			TcpListener myList=new TcpListener(ipAd,8001);     
@@ -100,6 +100,7 @@ public class SocketServer : MonoBehaviour
 				localIP = ip.ToString();
 			}
 		}
+		Debug.Log(localIP);
 		return localIP;
 	}
 }

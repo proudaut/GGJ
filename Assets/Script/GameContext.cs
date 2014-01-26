@@ -66,7 +66,7 @@ public class GameContext : MonoBehaviour
 		int count = lArray[1];
 		for(int i=0; i< count ; i++)
 		{
-			List<int> values = lArray.GetRange(2+(i*9),9);
+			List<int> values = lArray.GetRange(2+(i*6),6);
 			Player lPlayer =  new Player(values);
 			mDicPlayer.Add(lPlayer.mId, lPlayer);
 		}
@@ -78,7 +78,7 @@ public class GameContext : MonoBehaviour
 		int count = lArray[1];
 		for(int i=0; i< count ; i++)
 		{
-			List<int> values = lArray.GetRange(2+(i*9),9);
+			List<int> values = lArray.GetRange(2+(i*6),6);
 			int id = values[0];
 			mDicPlayer[id].SetPlayerValues(values);
 		}
@@ -100,7 +100,7 @@ public class GameContext : MonoBehaviour
 
 			
 			SocketServer.instance.SendToAllClientValues(mValuesListSynch);
-			yield return new WaitForSeconds(0.2f);
+			yield return new WaitForSeconds(0.1f);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class GameContext : MonoBehaviour
 			mValuesListSynch.Add((int)GameMessageType.ClientSync);
 			mValuesListSynch.AddRange(mDicPlayer[SocketClient.instance.mId].GetPlayerValues());
 			SocketClient.instance.SendToServerValues(mValuesListSynch);
-			yield return new WaitForSeconds(0.2f);
+			yield return new WaitForSeconds(0.1f);
 		}
 	}
 

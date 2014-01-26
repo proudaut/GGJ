@@ -52,7 +52,7 @@ public class TcpPlayer : Player
 			switch(requestType)
 			{
 				case GameMessageType.ClientSync : 
-				List<int> values = mReceivedData.GetRange(1,9);
+				List<int> values = mReceivedData.GetRange(1,6);
 				base.SetPlayerValues(values);
 				break;
 			}
