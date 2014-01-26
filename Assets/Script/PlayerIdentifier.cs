@@ -8,6 +8,7 @@ public class PlayerIdentifier : MonoBehaviour
 	public inputMove m_Controller1;
 	public DirectionMove m_Controller2;
 
+	public Animation m_DieAnimation;
 
 	private float visibleStartTime;
 	private float visibleDuration = 1f;
@@ -42,7 +43,7 @@ public class PlayerIdentifier : MonoBehaviour
 		if(Identifier.mAlive  == true)
 		{
 			Identifier.mAlive = false;
-			Graphical.SetActive(false);
+			m_DieAnimation.Play();
 
 			if(m_Controller1 != null)
 			{
@@ -59,6 +60,7 @@ public class PlayerIdentifier : MonoBehaviour
 	IEnumerator DieAnimation()
 	{
 		yield return new WaitForSeconds(1.0f);
+		Graphical.SetActive(false);
 		this.gameObject.transform.position = GameObject.Find ("spawn " + Random.Range(1,8)).transform.position;
 		yield return new WaitForSeconds(1.0f);
 
