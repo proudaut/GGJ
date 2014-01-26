@@ -7,6 +7,7 @@ public class PlayerIdentifier : MonoBehaviour
 	public GameObject Graphical;
 	public inputMove m_Controller1;
 	public DirectionMove m_Controller2;
+	public bool IsVisible = true;
 
 	public Animation m_DieAnimation;
 	public Animation m_RespawnAnimation;
@@ -25,6 +26,7 @@ public class PlayerIdentifier : MonoBehaviour
 	public void Hide()
 	{
 		Graphical.SetActive(false);
+		IsVisible = false;
 	}
 
 	public void StartMove()
@@ -110,6 +112,7 @@ public class PlayerIdentifier : MonoBehaviour
 			if(Time.time <= visibleStartTime + visibleDuration)
 			{
 				Graphical.SetActive(true);
+				IsVisible = true;
 			}
 			else
 			{

@@ -169,9 +169,28 @@ public class GameManager : MonoBehaviour
 				GameObject Hited = ((hitInfo as Object[])[1] as GameObject).transform.parent.gameObject.transform.parent.gameObject;
 				if(  Hiter.layer != Hited.layer && Hited.GetComponent<PlayerIdentifier>().Identifier.mAlive  && Hiter.GetComponent<PlayerIdentifier>().Identifier.mAlive)
 				{
-					Debug.Log("Hiter : " + Hiter + " / hited : " + Hited);
-					GameContext.instance.ActionPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier , Hited.GetComponent<PlayerIdentifier>().Identifier);
-					GameContext.instance.DidPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier.mId , Hited.GetComponent<PlayerIdentifier>().Identifier.mId);
+					//Goblin hit troll
+					if(Hiter.layer == LayerMask.NameToLayer("Goblin") && Hited.layer == LayerMask.NameToLayer("Troll"))
+					{
+						//Goblin need to be invisible to kill a troll
+						if(Hiter.GetComponent<PlayerIdentifier>().IsVisible == false)
+						{
+							Debug.Log("Goblin killed Troll");
+							GameContext.instance.ActionPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier , Hited.GetComponent<PlayerIdentifier>().Identifier);
+							GameContext.instance.DidPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier.mId , Hited.GetComponent<PlayerIdentifier>().Identifier.mId);
+						}
+					}
+					//Troll hit goblin
+					else if (Hiter.layer == LayerMask.NameToLayer("Troll") && Hited.layer == LayerMask.NameToLayer("Goblin"))
+					{
+						//Troll can only kill a visible Goblin
+						if(Hited.GetComponent<PlayerIdentifier>().IsVisible == true)
+						{
+							Debug.Log("Troll killed Goblin");
+							GameContext.instance.ActionPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier , Hited.GetComponent<PlayerIdentifier>().Identifier);
+							GameContext.instance.DidPlayerHit(Hiter.GetComponent<PlayerIdentifier>().Identifier.mId , Hited.GetComponent<PlayerIdentifier>().Identifier.mId);
+						}
+					}
 				}
 			}
 		}

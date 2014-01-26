@@ -50,9 +50,10 @@ public class SocketServer : MonoBehaviour
 	void SyncSearch()		
 	{
 		try {
-			IPAddress ipAd = IPAddress.Parse(LocalIP());
+			//IPAddress ipAd = IPAddress.Parse(LocalIP());
+			IPAddress ipAd = IPAddress.Parse("192.168.13.175");
 
-			Debug.Log("Looking For New Client");
+			Debug.Log("Looking For New Client, Server register on : " + ipAd);
 			TcpListener myList=new TcpListener(ipAd,8001);     
 			myList.Start();
 
