@@ -28,7 +28,7 @@ public class inputMove : MonoBehaviour {
 				float moveVertical = Input.GetAxis (player_joy + "_DirectionVertical");
 				Vector3 movement = new Vector3 (moveHorizontal, moveVertical, 0.0f);
 				
-				if (movement == Vector3.zero) {
+				if (movement == Vector3.zero && player_joy == "Player1") {
 					float moveHorizontalJoy = Input.GetAxis (player_joy + "_DirectionHorizontal_joy");
 					float moveVerticalJoy = Input.GetAxis (player_joy + "_DirectionVertical_joy");
 					movement = new Vector3 (moveHorizontalJoy, moveVerticalJoy, 0.0f);

@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody))]
 public class DirectionMove : MonoBehaviour 
 {
-	public float speed = 5f;
+	public float speed = 3f;
 	public bool mActive = false;
 	private Rigidbody rigidbody;
 	public Vector3 velocity;

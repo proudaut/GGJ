@@ -9,6 +9,7 @@ public class PlayerIdentifier : MonoBehaviour
 	public DirectionMove m_Controller2;
 
 	public Animation m_DieAnimation;
+	public Animation m_RespawnAnimation;
 
 	private float visibleStartTime;
 	private float visibleDuration = 1f;
@@ -43,6 +44,8 @@ public class PlayerIdentifier : MonoBehaviour
 		if(Identifier.mAlive  == true)
 		{
 			Identifier.mAlive = false;
+			m_DieAnimation["DieAnim"].time = 0;
+			m_DieAnimation["DieAnim"].speed = 1;
 			m_DieAnimation.Play();
 
 			if(m_Controller1 != null)
@@ -64,6 +67,10 @@ public class PlayerIdentifier : MonoBehaviour
 		this.gameObject.transform.position = GameObject.Find ("spawn " + Random.Range(1,8)).transform.position;
 		yield return new WaitForSeconds(1.0f);
 
+		m_DieAnimation["DieAnim"].time = m_DieAnimation["DieAnim"].length;
+		m_DieAnimation["DieAnim"].speed = -1;
+		m_DieAnimation.Play();
+
 		visibleStartTime = 0;
 
 		if(m_Controller1 != null)
@@ -74,6 +81,8 @@ public class PlayerIdentifier : MonoBehaviour
 		{
 			m_Controller2.mActive=true;
 		}
+
+
 		if(Identifier.mType == PlayerType.Gobelin && SocketServer.instance != null)
 		{
 			yield return new WaitForSeconds(3.0f);

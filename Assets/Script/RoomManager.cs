@@ -42,7 +42,7 @@ public class RoomManager : MonoBehaviour
 			{
 				if(mSlot1.mText.text ==  "P" + lPoint.mId  || mSlot2.mText.text ==  "P" + lPoint.mId)
 				{
-					break;
+					continue;
 				}
 				if(mSlot1.mIconGoblin.enabled == false)
 				{
@@ -59,7 +59,7 @@ public class RoomManager : MonoBehaviour
 			{
 				if(mSlot3.mText.text ==  "P" + lPoint.mId  || mSlot4.mText.text ==  "P" + lPoint.mId)
 				{
-					break;
+					continue;
 				}
 				if(mSlot3.mIconGoblin.enabled == false)
 				{

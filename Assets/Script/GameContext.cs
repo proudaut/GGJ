@@ -103,7 +103,7 @@ public class GameContext : MonoBehaviour
 
 			
 			SocketServer.instance.SendToAllClientValues(mValuesListSynch);
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(0.2f);
 		}
 	}
 
@@ -115,7 +115,7 @@ public class GameContext : MonoBehaviour
 			mValuesListSynch.Add((int)GameMessageType.ClientSync);
 			mValuesListSynch.AddRange(mDicPlayer[SocketClient.instance.mId].GetPlayerValues());
 			SocketClient.instance.SendToServerValues(mValuesListSynch);
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(0.2f);
 		}
 	}
 
