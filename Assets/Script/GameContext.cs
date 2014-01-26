@@ -83,9 +83,6 @@ public class GameContext : MonoBehaviour
 			mDicPlayer[id].SetPlayerValues(values);
 		}
 	}
-	
-
-
 
 
 	public IEnumerator SynchServerValues()

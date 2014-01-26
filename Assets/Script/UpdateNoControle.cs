@@ -28,10 +28,15 @@ public class UpdateNoControle : MonoBehaviour
 				startTime = Time.time;
 			}
 			float time = (Time.time - startTime) / 0.3f;
-			if(this.gameObject.transform.position != mNextPosition && time <= 1)
+			if(this.gameObject.transform.position != mNextPosition && time <= 1 && mPlayer.mAlive)
 			{
 				this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position,mNextPosition, time) ;
 				this.gameObject.transform.rotation = Quaternion.Lerp(this.gameObject.transform.rotation,mNextRotation, time) ;
+			}
+			else
+			{
+				this.gameObject.transform.position = mNextPosition;
+				this.gameObject.transform.rotation = mNextRotation;
 			}
 		}
 	}

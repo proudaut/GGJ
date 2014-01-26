@@ -98,6 +98,12 @@ public class Player
 			lValues.Add(0);//z
 			lValues.Add(0);//w
 		}
+
+		foreach(int disV in lValues)
+		{
+			Debug.Log(disV);
+		}
+
 		return lValues;
 	}
 
