@@ -7,7 +7,7 @@ public class UpdateNoControle : MonoBehaviour
 	// Use this for initialization
 	Vector3 mNextPosition;
 	Quaternion mNextRotation;
-
+	
 
 	private float startTime;
 
@@ -21,13 +21,13 @@ public class UpdateNoControle : MonoBehaviour
 	{
 		if(mPlayer!= null)
 		{
-			if( mNextPosition != mPlayer.mCurrentPosition ||  mNextRotation != mPlayer.mCurrentRotation)
+			/*if( mNextPosition != mPlayer.mCurrentPosition ||  mNextRotation != mPlayer.mCurrentRotation)
 			{
 				mNextPosition = mPlayer.mCurrentPosition;
 				mNextRotation = mPlayer.mCurrentRotation;
 				startTime = Time.time;
 			}
-			float time = (Time.time - startTime) / 0.2f;
+			float time = (Time.time - startTime) / 0.1f;
 			if( (this.gameObject.transform.position != mNextPosition || this.gameObject.transform.rotation != mNextRotation) && time <= 1 && mPlayer.mAlive)
 			{
 				this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position,mNextPosition, time) ;
@@ -37,7 +37,24 @@ public class UpdateNoControle : MonoBehaviour
 			{
 				this.gameObject.transform.position = mNextPosition;
 				this.gameObject.transform.rotation = mNextRotation;
+			}*/
+
+
+			if( mNextPosition != mPlayer.mCurrentPosition)
+			{
+				mNextPosition = mPlayer.mCurrentPosition;
+				startTime = Time.time;
 			}
+			float time = (Time.time - startTime) / 0.1f;
+			if( (this.gameObject.transform.position != mNextPosition) && time <= 1 && mPlayer.mAlive)
+			{
+				this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position,mNextPosition, time) ;
+			}
+			else
+			{
+				this.gameObject.transform.position = mNextPosition;
+			}
+			this.gameObject.transform.rotation = mPlayer.mCurrentRotation;
 		}
 	}
 }

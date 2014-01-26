@@ -49,25 +49,27 @@ public class SocketServer : MonoBehaviour
 	
 	void SyncSearch()		
 	{
-		try {
-			IPAddress ipAd = IPAddress.Parse(Config.ip);
-
-			Debug.Log("Looking For New Client");
-			TcpListener myList=new TcpListener(ipAd,8001);     
-			myList.Start();
-
-			Socket s=myList.AcceptSocket();
-
-			Debug.Log("Find Client");
-			mListClient.Add(new TcpPlayer(s , getId() ,  PlayerType.Gobelin));
-			mSynchronizing = false;
-			myList.Stop();
+		while(true)
+		{
+			try {
+				IPAddress ipAd = IPAddress.Parse(Config.ip);
+				
+				Debug.Log("Looking For New Client");
+				TcpListener myList=new TcpListener(ipAd,8001);     
+				myList.Start();
+				
+				Socket s=myList.AcceptSocket();
+				
+				Debug.Log("Find Client");
+				mListClient.Add(new TcpPlayer(s , getId() ,  PlayerType.Gobelin));
+				mSynchronizing = false;
+				myList.Stop();
+			}
+			catch (Exception e) {
+				mSynchronizing = false;
+				Debug.Log("Error..... " + e.StackTrace);
+			}  
 		}
-		catch (Exception e) {
-			mSynchronizing = false;
-			Debug.Log("Error..... " + e.StackTrace);
-		}  
-
 	}
 
 	void OnDisable()

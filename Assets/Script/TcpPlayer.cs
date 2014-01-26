@@ -11,7 +11,7 @@ using System.Text;
 
 public class TcpPlayer : Player	
 {	
-	private byte[] mBytes =new byte[40];
+	private byte[] mBytes =new byte[28];
 	private Thread tread;	
 	private Socket socket;
 	private bool running = true;

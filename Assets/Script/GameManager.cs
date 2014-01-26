@@ -36,15 +36,11 @@ public class GameManager : MonoBehaviour
 		{
 			StartCoroutine(StartGame());
 		}
-		else
-		{
-			StartCoroutine(CounterAnim());
-		}
 	}
 
 	IEnumerator StartGame()
 	{
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(5);
 		PlayStartGameAnimation();
 		GameContext.instance.ActionGameStart();
 	}
@@ -134,6 +130,10 @@ public class GameManager : MonoBehaviour
 		if(SocketServer.instance!= null)
 		{
 			StartCoroutine(EndGame());
+		}
+		else
+		{
+			StartCoroutine(CounterAnim());
 		}
 	}
 
