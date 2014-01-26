@@ -56,7 +56,10 @@ public class Player
 		mGamePlayer.transform.position = GameObject.Find ("spawn " + mId).transform.position;
 	}
 
-
+	public void StartMove()
+	{
+		mGamePlayer.GetComponent<PlayerIdentifier>().StartMove();
+	}
 
 	public List<int> GetPlayerValues()
 	{
