@@ -1,16 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/PlayerIdentifier.cs">
     <Files>
-      <File FileName="Assets/Script/RoomManager.cs" Line="28" Column="39" />
-      <File FileName="Assets/Script/WaitingRoomManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Script/SlotRoom.cs" Line="1" Column="1" />
-      <File FileName="Assets/Script/chooseAsset.cs" Line="1" Column="1" />
-      <File FileName="Assets/Script/GameManager.cs" Line="33" Column="3" />
-      <File FileName="Assets/Script/PlayerIdentifier.cs" Line="1" Column="1" />
-      <File FileName="Assets/Script/SocketClient.cs" Line="1" Column="1" />
-      <File FileName="Assets/Controls/DirectionMove.cs" Line="1" Column="1" />
-      <File FileName="Assets/Script/inputMove.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/GameManager.cs" Line="87" Column="28" />
+      <File FileName="Assets/Script/GameContext.cs" Line="159" Column="25" />
+      <File FileName="Assets/Script/PlayerIdentifier.cs" Line="14" Column="32" />
+      <File FileName="Assets/Triggers/VisionCone.cs" Line="56" Column="36" />
+      <File FileName="Assets/Script/SocketServer.cs" Line="36" Column="1" />
+      <File FileName="Assets/Script/Player.cs" Line="107" Column="49" />
+      <File FileName="Assets/Script/UpdateNoControle.cs" Line="31" Column="66" />
+      <File FileName="Assets/Controls/DirectionMove.cs" Line="7" Column="26" />
+      <File FileName="Assets/Script/InputPlayer.cs" Line="23" Column="3" />
+      <File FileName="Assets/Script/inputMove.cs" Line="40" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

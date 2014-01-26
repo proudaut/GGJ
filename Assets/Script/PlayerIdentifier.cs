@@ -21,21 +21,23 @@ public class PlayerIdentifier : MonoBehaviour
 
 	public void Die()
 	{
-		StartCoroutine(DieAnimation());
+		if(Identifier.mAlive  == true)
+		{
+			Identifier.mAlive = false;
+			Graphical.SetActive(false);
+			this.gameObject.transform.position = GameObject.Find ("spawn " + Random.Range(1,8)).transform.position;
+			StartCoroutine(DieAnimation());
+		}
 	}
 
 	IEnumerator DieAnimation()
 	{
-		Identifier.mAlive = false;
-		Graphical.SetActive( false );
-		yield return new WaitForEndOfFrame();
-		this.gameObject.transform.position = GameObject.Find ("spawn " + Identifier.mId).transform.position;
-
 		yield return new WaitForSeconds(2.0f);
 		for(int i=0; i<4; i++)
 		{
-			Graphical.SetActive( !Graphical.activeSelf );
-			yield return new WaitForSeconds(0.8f);
+			yield return new WaitForSeconds(0.5f);
+			Graphical.SetActive( !Graphical.activeSelf);
+			yield return new WaitForSeconds(0.5f);
 		}
 		Graphical.SetActive(true);
 		Identifier.mAlive = true;
