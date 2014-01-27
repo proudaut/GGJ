@@ -29,6 +29,7 @@ public class SocketServer : MonoBehaviour
 	{
 		instance = this;
 		DontDestroyOnLoad(this);
+		Config.ip = LocalIP();
 	}
 
 	public void StopSync()

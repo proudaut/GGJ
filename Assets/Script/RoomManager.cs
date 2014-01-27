@@ -15,10 +15,12 @@ public class RoomManager : MonoBehaviour
 	public SlotRoom mSlot3;
 	public SlotRoom mSlot4;
 
+	public UILabel mIp;
 
 	void Start()
 	{
 		SocketServer.instance.StartSync();
+		mIp.text = Config.ip;
 	}
 	void Destroy()
 	{

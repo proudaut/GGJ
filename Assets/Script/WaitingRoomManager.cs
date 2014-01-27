@@ -5,6 +5,13 @@ public class WaitingRoomManager : MonoBehaviour
 {
 	public SlotRoom mSlot;
 	public UILabel mText;
+	public UILabel mInput;
+
+	void Start()
+	{
+		mInput.text = Config.ip;
+	}
+
 	void OnGUI() 
 	{
 		if( SocketClient.instance.mConnected == false) 
@@ -18,6 +25,8 @@ public class WaitingRoomManager : MonoBehaviour
 			{
 				if (GUI.Button(new Rect(250, 150, 250, 100), "JOIN"))
 				{
+					Config.ip = mInput.text;
+					Debug.Log("Sear server on " + Config.ip);
 					SocketClient.instance.StartSync();
 				}
 			}
