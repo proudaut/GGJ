@@ -11,7 +11,7 @@ using System.Text;
 
 public class TcpPlayer : Player	
 {	
-	private byte[] mBytes =new byte[28];
+	private byte[] mBytes =new byte[24];
 	private Thread tread;	
 	private Socket socket;
 	private bool running = true;
@@ -52,7 +52,7 @@ public class TcpPlayer : Player
 			switch(requestType)
 			{
 				case GameMessageType.ClientSync : 
-				List<int> values = mReceivedData.GetRange(1,6);
+				List<int> values = mReceivedData.GetRange(1,5);
 				base.SetPlayerValues(values);
 				break;
 			}

@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/WaitingRoomManager.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../tekken-unity3d-client/Assets/GPG/NerdGPG.cs">
     <Files>
-      <File FileName="Assets/Script/WaitingRoomManager.cs" Line="29" Column="47" />
-      <File FileName="Assets/Script/SocketClient.cs" Line="36" Column="2" />
+      <File FileName="../tekken-unity3d-client/Assets/GPG/GPGSocial.cs" Line="39" Column="4" />
+      <File FileName="../tekken-unity3d-client/Assets/GPG/GPGGui.cs" Line="41" Column="24" />
+      <File FileName="../tekken-unity3d-client/Assets/GPG/NerdGPG.cs" Line="97" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

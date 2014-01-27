@@ -4,13 +4,11 @@ using System.Collections;
 public class UpdateNoControle : MonoBehaviour 
 {
 	public Player mPlayer = null;
-	// Use this for initialization
-	Vector3 mNextPosition;
-
-	
+	public float speed = 8f;
+	public float speed2 = 6f;
 
 	private float startTimeP;
-
+	private float startTimeR;
 	void Start () 
 	{
 		
@@ -21,22 +19,33 @@ public class UpdateNoControle : MonoBehaviour
 	{
 		if(mPlayer!= null)
 		{
-
-			if( mNextPosition != mPlayer.mCurrentPosition)
+			if(mPlayer.mType == PlayerType.Gobelin)
 			{
-				mNextPosition = mPlayer.mCurrentPosition;
-				startTimeP = Time.time;
-			}
-			float timeP = (Time.time - startTimeP) / 0.1f;
-			if( (this.gameObject.transform.position != mNextPosition) && timeP <= 1 && mPlayer.mAlive)
-			{
-				this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position,mNextPosition, timeP) ;
+				if(mPlayer.mAlive)
+				{
+					transform.position = Vector3.Lerp(transform.position,  mPlayer.mCurrentPosition, speed*Time.deltaTime);
+					transform.rotation = Quaternion.Slerp(transform.rotation,  mPlayer.mCurrentRotation, speed*Time.deltaTime);
+				}
+				else
+				{
+					this.gameObject.transform.position = mPlayer.mCurrentPosition;
+					this.gameObject.transform.rotation = mPlayer.mCurrentRotation;
+				}
 			}
 			else
 			{
-				this.gameObject.transform.position = mNextPosition;
+				if(mPlayer.mAlive)
+				{
+					transform.position = Vector3.Lerp(transform.position,  mPlayer.mCurrentPosition, speed2*Time.deltaTime);
+					transform.rotation = Quaternion.Slerp(transform.rotation,  mPlayer.mCurrentRotation, speed2*Time.deltaTime);
+				}
+				else
+				{
+					this.gameObject.transform.position = mPlayer.mCurrentPosition;
+					this.gameObject.transform.rotation = mPlayer.mCurrentRotation;
+				}
 			}
-			this.gameObject.transform.rotation = mPlayer.mCurrentRotation;
+
 		}
 	}
 }

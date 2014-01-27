@@ -49,10 +49,10 @@ public class DirectionMove : MonoBehaviour
 			
 			rigidbody.velocity = velocity;
 		}
-		/*else
+		else
 		{
 			rigidbody.velocity = new Vector3();
-		}*/
+		}
 
 	}
 

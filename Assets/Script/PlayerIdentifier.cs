@@ -41,6 +41,19 @@ public class PlayerIdentifier : MonoBehaviour
 		}
 	}
 
+	public void StopMove()
+	{
+		if(m_Controller1 != null)
+		{
+			m_Controller1.mActive=false;
+		}
+		if(m_Controller2 != null)
+		{
+			m_Controller2.mActive=false;
+		}
+	}
+
+
 	public void Die()
 	{
 		if(Identifier.mAlive  == true)

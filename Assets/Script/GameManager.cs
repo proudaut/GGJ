@@ -4,7 +4,6 @@ using System.Collections;
 public class GameManager : MonoBehaviour 
 {
 	int lGameTime = 0;
-
 	public UILabel mText;
 	public UILabel mTime;
 	public UILabel mScoreGoblin;
@@ -17,11 +16,14 @@ public class GameManager : MonoBehaviour
 	{
 		if(GameContext.instance!=null)
 		{
+			lGameTime = 0;
+			mText.text = "READY";
 			GameContext.instance.mGameController = this;
 			foreach(int lKey in GameContext.instance.mDicPlayer.Keys)
 			{
+				GameContext.instance.mDicPlayer[lKey].mAlive = false;
 				GameContext.instance.mDicPlayer[lKey].StartGame();
-
+				GameContext.instance.mDicPlayer[lKey].StopMove();
 				//we are server (trolls)
 				if(SocketServer.instance != null)
 				{
@@ -48,10 +50,10 @@ public class GameManager : MonoBehaviour
 	IEnumerator CounterAnim()
 	{
 		while(true)
-		{
+		{	
+			mTime.text = "" + (20 - lGameTime);
 			yield return new WaitForSeconds(1);
-			mTime.text = "" + (90 - lGameTime);
-			if(lGameTime == 120)
+			if(lGameTime == 20)
 			{
 				mTime.text = "";
 				yield break;
@@ -65,8 +67,8 @@ public class GameManager : MonoBehaviour
 		while(true)
 		{
 			yield return new WaitForSeconds(1);
-			mTime.text = "" + (90 - lGameTime);
-			if(lGameTime == 90)
+			mTime.text = "" + (20 - lGameTime);
+			if(lGameTime == 20)
 			{
 				mTime.text = "";
 				if(int.Parse(mScoreGoblin.text) > int.Parse(mScoreTroll.text))
@@ -79,8 +81,6 @@ public class GameManager : MonoBehaviour
 					PlayEndGameAnimation(GameStatus.Win);
 					GameContext.instance.ActionGameEnd(GameStatus.Lose);
 				}
-
-
 				yield break;
 			}
 			lGameTime++;
@@ -111,6 +111,9 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator StartAnimation()
 	{
+		mScoreTroll.text = "0";
+		mScoreGoblin.text = "0";
+
 		mText.text = "3";
 		yield return new WaitForSeconds(0.5f);
 		mText.text = "2";
@@ -122,9 +125,11 @@ public class GameManager : MonoBehaviour
 		mText.text = "";
 
 
+
 		foreach(int lKey in GameContext.instance.mDicPlayer.Keys)
 		{
 			GameContext.instance.mDicPlayer[lKey].StartMove();
+			GameContext.instance.mDicPlayer[lKey].mAlive = true;
 		}
 
 		if(SocketServer.instance!= null)
@@ -139,6 +144,12 @@ public class GameManager : MonoBehaviour
 
 	public void PlayEndGameAnimation(GameStatus lGameStatus)
 	{
+		foreach(int lKey in GameContext.instance.mDicPlayer.Keys)
+		{
+			GameContext.instance.mDicPlayer[lKey].mAlive = false;
+			GameContext.instance.mDicPlayer[lKey].StopMove();
+		}
+
 		if(lGameStatus == GameStatus.Lose)
 		{
 			mText.text = "YOU LOSE";
@@ -147,6 +158,13 @@ public class GameManager : MonoBehaviour
 		{
 			mText.text = "YOU WIN";
 		}
+		StartCoroutine(Restart());
+	}
+
+	IEnumerator Restart()
+	{
+		yield return new WaitForSeconds(5);
+		Start();
 	}
 
 	private void VisionHit(object hitInfo)

@@ -9,13 +9,14 @@ public class Player
 	public int mId;
 	public PlayerType mType;
 	public float mSpeed;
-
+	public GameObject mGamePlayer;
 	public bool mAlive = true;
+
+
 	public Vector3 mCurrentPosition;
 	public Quaternion mCurrentRotation;
 
-	
-	public GameObject mGamePlayer;
+
 
 	public Player (int _id, PlayerType _type)		
 	{		
@@ -33,23 +34,26 @@ public class Player
 	{
 		Debug.Log ("create player object");
 		//TO DO CREATE MONOBEAVIOR
-		if(SocketClient.instance != null && mId == SocketClient.instance.mId)
+		if(mGamePlayer == null)
 		{
-			mGamePlayer = GameObject.Instantiate (Resources.Load ("Goblin")) as GameObject; 
-		}
-		else
-		{
-			if(mType == PlayerType.Troll)
+			if(SocketClient.instance != null && mId == SocketClient.instance.mId)
 			{
-				mGamePlayer = GameObject.Instantiate (Resources.Load ("TrollNoControle")) as GameObject;
+				mGamePlayer = GameObject.Instantiate (Resources.Load ("Goblin")) as GameObject; 
 			}
 			else
 			{
-				mGamePlayer = GameObject.Instantiate (Resources.Load ("GoblinNoControle")) as GameObject;
+				if(mType == PlayerType.Troll)
+				{
+					mGamePlayer = GameObject.Instantiate (Resources.Load ("TrollNoControle")) as GameObject;
+				}
+				else
+				{
+					mGamePlayer = GameObject.Instantiate (Resources.Load ("GoblinNoControle")) as GameObject;
+				}
+				mGamePlayer.GetComponent<UpdateNoControle>().mPlayer = this;
 			}
-			
-			mGamePlayer.GetComponent<UpdateNoControle>().mPlayer = this;
 		}
+
 		//inform gameobject his reference on Player object
 		mGamePlayer.GetComponent<PlayerIdentifier>().Identifier = this;
 		Debug.Log ("spawn " + mId);
@@ -59,6 +63,10 @@ public class Player
 	public void StartMove()
 	{
 		mGamePlayer.GetComponent<PlayerIdentifier>().StartMove();
+	}
+	public void StopMove()
+	{
+		mGamePlayer.GetComponent<PlayerIdentifier>().StopMove();
 	}
 
 	public List<int> GetPlayerValues()
@@ -75,13 +83,9 @@ public class Player
 			lValues.Add(lx);
 			lValues.Add(ly);
 
-
-			int rz = Mathf.RoundToInt( mGamePlayer.transform.rotation.z * 100);
-			int rw = Mathf.RoundToInt( mGamePlayer.transform.rotation.w * 100);
-
+			int rz = Mathf.RoundToInt(mGamePlayer.transform.localEulerAngles.z * 100);
 
 			lValues.Add(rz);
-			lValues.Add(rw);
 		}
 		else
 		{
@@ -89,7 +93,6 @@ public class Player
 			lValues.Add(0);//y
 
 			lValues.Add(0);//z
-			lValues.Add(0);//w
 		}
 
 
@@ -110,6 +113,6 @@ public class Player
 		mId = _Values[0];
 		mType =(PlayerType) _Values[1];
 		mCurrentPosition = new Vector3( _Values[2]/100.0f ,  _Values[3]/100.0f ,0);
-		mCurrentRotation = new Quaternion(0 ,0 , _Values[4]/100.0f ,  _Values[5]/100.0f  );
+		mCurrentRotation = Quaternion.Euler(new Vector3(0,0,_Values[4]/100.0f));
 	}
 }

@@ -66,7 +66,7 @@ public class GameContext : MonoBehaviour
 		int count = lArray[1];
 		for(int i=0; i< count ; i++)
 		{
-			List<int> values = lArray.GetRange(2+(i*6),6);
+			List<int> values = lArray.GetRange(2+(i*5),5);
 			Player lPlayer =  new Player(values);
 			mDicPlayer.Add(lPlayer.mId, lPlayer);
 		}
@@ -78,7 +78,7 @@ public class GameContext : MonoBehaviour
 		int count = lArray[1];
 		for(int i=0; i< count ; i++)
 		{
-			List<int> values = lArray.GetRange(2+(i*6),6);
+			List<int> values = lArray.GetRange(2+(i*5),5);
 			int id = values[0];
 			mDicPlayer[id].SetPlayerValues(values);
 		}
