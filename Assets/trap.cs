@@ -7,7 +7,7 @@ public class trap : MonoBehaviour
 
 	void OnTriggerEnter(Collider coll)
 	{
-		if(coll.gameObject.layer == LayerMask.NameToLayer("Goblin") || coll.gameObject.layer == LayerMask.NameToLayer("Troll"))
+		if(coll.gameObject.layer == LayerMask.NameToLayer("Goblin"))
 		{
 			Target.GetComponentInChildren<Animation>().Play();
 		}
